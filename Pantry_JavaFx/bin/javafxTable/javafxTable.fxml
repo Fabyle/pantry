@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafxTable.*?>
+<?import javafx.scene.control.cell.*?> 
+<?import javafx.collections.*?> 
+<?import fxmltableview.*?>
+
+<MyVBoxAndController prefHeight="400.0" prefWidth="640.0"
+	xmlns:fx="http://javafx.com/fxml">
+	<children>
+		<MenuBar VBox.vgrow="NEVER">
+			<menus>
+				<Menu mnemonicParsing="false" text="File">
+					<items>
+						<MenuItem mnemonicParsing="false" text="New" />
+						<MenuItem mnemonicParsing="false" text="Open..." />
+						<Menu mnemonicParsing="false" text="Open Recent" />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem mnemonicParsing="false" text="Close" />
+						<MenuItem mnemonicParsing="false" text="Save" />
+						<MenuItem mnemonicParsing="false" text="Save As..." />
+						<MenuItem mnemonicParsing="false" text="Revert" />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem mnemonicParsing="false" text="Preferences..." />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem mnemonicParsing="false" text="Quit" />
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Edit">
+					<items>
+						<MenuItem mnemonicParsing="false" text="Undo" />
+						<MenuItem mnemonicParsing="false" text="Redo" />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem mnemonicParsing="false" text="Cut" />
+						<MenuItem mnemonicParsing="false" text="Copy" />
+						<MenuItem mnemonicParsing="false" text="Paste" />
+						<MenuItem mnemonicParsing="false" text="Delete" />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem mnemonicParsing="false" text="Select All" />
+						<MenuItem mnemonicParsing="false" text="Unselect All" />
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Help">
+					<items>
+						<MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+		<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0"
+			prefWidth="-1.0" VBox.vgrow="ALWAYS">
+			<children>
+				<Label alignment="CENTER" layoutX="155.0" layoutY="177.0"
+					style="&#10;" text="Drag components from Library here..."
+					textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<GridPane alignment="CENTER" layoutX="1.0" layoutY="1.0"
+					prefHeight="375.0" prefWidth="639.0">
+					<children>
+						<TableView  prefHeight="187.0" prefWidth="422.0"
+							GridPane.columnIndex="0" GridPane.rowIndex="1">
+							<columns>
+								<TableColumn text="First Name">
+									<cellValueFactory>
+										<PropertyValueFactory property="firstName" />
+									</cellValueFactory>
+								</TableColumn>
+								<TableColumn text="Last Name">
+									<cellValueFactory>
+										<PropertyValueFactory property="lastName" />
+									</cellValueFactory>
+								</TableColumn>
+								<TableColumn text="Email Address">
+									<cellValueFactory>
+										<PropertyValueFactory property="email" />
+									</cellValueFactory>
+								</TableColumn>
+							</columns>
+							<items>
+								<FXCollections fx:id="observable" fx:factory="observableArrayList">
+									<Person firstName="Jacob" lastName="Smith"
+										email="jacob.smith@example.com" />
+									<Person firstName="Isabella" lastName="Johnson"
+										email="isabella.johnson@example.com" />
+									<Person firstName="Ethan" lastName="Williams"
+										email="ethan.williams@example.com" />
+									<Person firstName="Emma" lastName="Jones"
+										email="emma.jones@example.com" />
+									<Person firstName="Michael" lastName="Brown"
+										email="michael.brown@example.com" />
+								</FXCollections>
+							</items>
+						</TableView>
+					</children>
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+							prefWidth="100.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints maxHeight="117.0" minHeight="10.0"
+							prefHeight="117.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="258.0" minHeight="10.0"
+							prefHeight="258.0" vgrow="SOMETIMES" />
+					</rowConstraints>
+				</GridPane>
+			</children>
+		</AnchorPane>
+	</children>
+	<stylesheets>
+		<URL value="@BasicApplication.css" />
+	</stylesheets>
+</MyVBoxAndController>
