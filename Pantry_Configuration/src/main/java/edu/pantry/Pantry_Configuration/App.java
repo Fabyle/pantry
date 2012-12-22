@@ -1,4 +1,4 @@
-package edu.pantry.pantry_Configuration;
+package edu.pantry.Pantry_Configuration;
 
 
 
