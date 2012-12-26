@@ -1,0 +1,19 @@
+<assembly>
+	<id>parm</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+	<fileSets>
+		<fileSet>
+			<directory>batch/PARM</directory>
+			<outputDirectory>PARM</outputDirectory>
+			<includes>
+				<include>*.properties</include>
+				<include>*.xml</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+
+</assembly>

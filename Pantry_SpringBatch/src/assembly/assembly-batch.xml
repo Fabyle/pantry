@@ -1,0 +1,27 @@
+<assembly>
+	<id>batch</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+	<fileSets>
+		<fileSet>
+			<directory>batch/REXX</directory>
+			<outputDirectory>REXX</outputDirectory>
+			<includes>
+				<include>*.rex</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+
+	<dependencySets>
+		<dependencySet>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+			<outputDirectory>JAVA/${batch.id}</outputDirectory>
+		</dependencySet>
+	</dependencySets>
+
+
+</assembly>
