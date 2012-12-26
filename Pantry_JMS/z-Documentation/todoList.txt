@@ -1,0 +1,26 @@
+1- Jouer l'installateur *installer.vbs* dans le répertoire *openmq4_5-installer*
+
+2- L'installation est effectué. ( pour mon cas dans C:\Users\lemoinef\Documents\MessageQueue ).
+
+3- se positionner dans le répertoire  *C:\Users\lemoinef\Documents\MessageQueue\mq\bin*
+
+4- lancer imqbrokerd 
+starts an instance of the Message Queue broker. 
+The Message Queue broker is the main component of a Message Queue message server. 
+The broker performs reliable delivery of messages to and from Java Message Service (JMS) clients.
+
+5- imqcmd query broker 
+donne des informations sur le broker courant. 
+Il est possible de construire d'autres broker.
+A noter que le broker courant est en mode "creation automatique de la file d'attente = true".
+
+6- imqbrokerd -port 7677 -name broker02
+création d'un deuxieme broker de nom broker02
+a noter que le comportement est un peu différent qu'avec le broker principal : "imqbroker",
+si on écrit dans une file et qu'on lit dans une autre file, cela fonctionne dans imqbroker.
+si on écrit dans une file et qu'on lit dans une autre file, cela fonctionne pas dans broker02.(ce qui semble normal).
+
+7- imqcmd metrics bkr  -b 127.0.0.1:7677 -m rts -int 10 -u admin
+pour avoir les metrics sur le broker02
+
+8- l'usage de la console : imqadmin ( sympa !) 
