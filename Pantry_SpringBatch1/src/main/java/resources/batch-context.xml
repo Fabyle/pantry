@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:tx = "http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/batch
+	http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+	http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    
+    <!-- fichier de properties -->
+  
+    <context:property-placeholder location="classpath:myconfig.properties"/>
+    
+    <!-- READER  -->
+	<bean id="personneReaderCSV" class="org.springframework.batch.item.file.FlatFileItemReader" >
+		<property name="resource" value="${input.file}" />
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+				<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+					<property name="delimiter" value=","/>
+					<property name="names" value="id,nom,prenom,civilite" />
+				</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+						<property name="targetType" value="edu.pantry.Pantry_SpringBatch1.ItemModel.Personne" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- PROCESSOR -->
+	<bean id="personProcessor" class="edu.pantry.Pantry_SpringBatch1.ItemProcessor.PersonProcessor" />
+	
+	<!-- WRITER -->
+	<bean id="personDaoWriter" class="edu.pantry.Pantry_SpringBatch1.ItemWriter.PersonJdbcWriter" >
+		<property name="jdbcTemplate" ref="idJdbcTemplate" />
+	</bean>
+	
+	<!-- jdbc template -->	
+	<bean id="idJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- Data source --> 
+   <bean id="dataSource" destroy-method="close" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
+       <property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+       <property name="url" value="jdbc:hsqldb:file:database;shutdown=true" />
+       <property name="username" value="sa" />
+       <property name="password" value="" />
+   </bean>
+	
+	<!-- JOB LAUNCHER --> 
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+	
+	<!-- JOB REPOSITORY --> 
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<!-- TRANSACTION MANAGER --> 
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+     <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+  
+  <!-- for multi threading -->
+  <!-- Be sure to verify that the reader and writers are thread safe. -->
+  <!--  SEE to : Paralell step -->
+  <bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor">
+    <property name="concurrencyLimit" value="10"/>
+	</bean> 
+  
+  
+  <!-- JOB --> 
+	<job id="importPersonnes"
+		xmlns="http://www.springframework.org/schema/batch">
+		<step id="readWritePersonne">
+			<tasklet> <!-- task-executor="taskExecutor" reader and writer must be thread safe-->			
+				<chunk reader="personneReaderCSV" writer="personDaoWriter" processor="personProcessor" commit-interval="10" />
+			</tasklet>
+			<batch:listeners>
+				<batch:listener ref="stepReadWritePersonneListener" />
+			</batch:listeners>
+			
+		</step>
+		<batch:listeners>
+				<batch:listener ref="jobPersonneListener" />
+		</batch:listeners>
+	</job>
+	
+	<!-- listener de job -->
+	<bean id="jobPersonneListener"	class="edu.pantry.Pantry_SpringBatch1.Listener.JobPersonneListener" />
+	
+	<!-- listener de step -->
+	<bean id="stepReadWritePersonneListener"	class="edu.pantry.Pantry_SpringBatch1.Listener.StepReadWritePersonneListener" />
+
+
+
+
+</beans>
