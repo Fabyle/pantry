@@ -1,7 +1,7 @@
 package edu.pantry.Pantry_WebServices_JAX_WS_Client_1;
 
-import edu.pantry.Pantry_WebServices_JAX_WS_Client_1.pantry_webservices_jax_ws_server.HelloWorldService;
-import edu.pantry.Pantry_WebServices_JAX_WS_Client_1.pantry_webservices_jax_ws_server.HelloWorldServiceImpService;
+import edu.pantry.pantry_webservices_jax_ws_server.HelloWorldService;
+import edu.pantry.pantry_webservices_jax_ws_server.HelloWorldServiceImpService;
 
 /**
  * Hello world!
