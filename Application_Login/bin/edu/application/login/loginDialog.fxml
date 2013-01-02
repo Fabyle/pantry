@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import edu.application.login.paneAndController.*?>
+
+<AnchorPaneAndControler id="AnchorPane" 
+	fx:controller="edu.application.login.paneAndController.AnchorPaneAndControler"
+maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="153.0" prefWidth="255.0" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <GridPane hgap="10.0" layoutX="1.0" layoutY="32.0" prefHeight="121.0" prefWidth="254.0" vgap="10.0">
+      <children>
+        <Label prefHeight="27.5" prefWidth="116.5" text="Login :" textAlignment="JUSTIFY" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label text="Mot de passe :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="login" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <PasswordField fx:id="password" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+          <children>
+            <Button mnemonicParsing="false" text="Annuler" onAction="#handleSubmitButtonAnnuler" />
+            <Button mnemonicParsing="false" text="Ok" onAction="#handleSubmitButtonOk" />
+          </children>
+          <padding>
+            <Insets />
+          </padding>
+        </HBox>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="132.0" minWidth="10.0" prefWidth="132.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="181.0" minWidth="10.0" prefWidth="122.0" />
+      </columnConstraints>
+      <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      </padding>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+    <Text fill="#a300cc" layoutX="106.0" layoutY="22.0" scaleX="4.995583900175503" scaleY="2.517429846748575" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue">
+      <font>
+        <Font name="AR CENA" size="12.0" />
+      </font>
+    </Text>
+  </children>
+</AnchorPaneAndControler>
