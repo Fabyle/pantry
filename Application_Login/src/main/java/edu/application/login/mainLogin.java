@@ -2,10 +2,15 @@ package edu.application.login;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import edu.application.login.paneAndController.AnchorPaneAndControler;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import edu.application.login.paneAndController.LoginDialogController;
 
 public class mainLogin extends Application {
 
@@ -35,13 +40,20 @@ public class mainLogin extends Application {
 		 * StageStyle.UTILITY – A stage with a solid white background and
 		 * minimal platform decorations.
 		 */
+		
+//		ApplicationContext context = new ClassPathXmlApplicationContext(
+//				"Spring-Module.xml");
+ 
+		AnnotationConfigApplicationContext context
+        = new AnnotationConfigApplicationContext(SampleAppFactory.class);
 
+		LoginDialogController sampleController = context.getBean(LoginDialogController.class);
+		
 		primaryStage.initStyle(StageStyle.UNDECORATED);
-		AnchorPaneAndControler parent = (AnchorPaneAndControler) FXMLLoader
-				.load(getClass().getResource("loginDialog.fxml"));
-
+		
 		primaryStage.setTitle("Bienvenue");
-		primaryStage.setScene(new Scene(parent, 250, 175));
+		Scene scene = new Scene((Parent) sampleController.getView(), 250, 175);
+		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 
 		primaryStage.show();

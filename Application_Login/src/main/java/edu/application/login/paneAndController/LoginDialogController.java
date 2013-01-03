@@ -15,10 +15,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.application.login.modelWrapper.LoginPasswordModelWrapper;
+import edu.application.login.services.LoginService;
+
 
 /**
  * Cette classe joue un double role
@@ -27,14 +31,21 @@ import edu.application.login.modelWrapper.LoginPasswordModelWrapper;
  * @author fabien
  *
  */
-public class AnchorPaneAndControler extends AnchorPane implements Initializable {
+
+public class LoginDialogController  implements Initializable {
+
+	
 
 	// logger
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AnchorPaneAndControler.class);
+			.getLogger(LoginDialogController.class);
 	
 	// model 
 	private LoginPasswordModelWrapper modelWrapper = new LoginPasswordModelWrapper();
+	
+	// services
+	@Autowired
+	public LoginService loginService;
 
 	// widgets 
 	@FXML
@@ -44,8 +55,16 @@ public class AnchorPaneAndControler extends AnchorPane implements Initializable 
 	@FXML
 	private Label nonValide;
 	@FXML
-	private Button ok; 
+	private Button ok;
 	
+	@FXML 
+	private Node view;
+	
+	
+
+	public Node getView() {
+		return view;
+	}
 
 	/* Permet d'initialiser le bingind bidirectionnel
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
@@ -70,6 +89,15 @@ public class AnchorPaneAndControler extends AnchorPane implements Initializable 
 
 	}
 	
+	public LoginService getLoginService() {
+		return loginService;
+	}
+
+	
+	public void setLoginService(LoginService loginService) {
+		this.loginService = loginService;
+	}
+	
 
 	/**
 	 * Réaction du controler sur le bouton OK
@@ -78,10 +106,16 @@ public class AnchorPaneAndControler extends AnchorPane implements Initializable 
 	@FXML
 	protected void handleSubmitButtonOk(ActionEvent event) {
 		LOGGER.info("Action sur le bouton OK pour le login : "+modelWrapper.getLoginProperty().getValue());
-		nonValide.setVisible(true);
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		//stage.close();
+				
+		boolean isOk = loginService.validateLogin(modelWrapper);
+		nonValide.setVisible(!isOk);
+			
+		if (isOk){
+			Node source = (Node) event.getSource();
+			Stage stage = (Stage) source.getScene().getWindow();
+			stage.close();
+		}
+		
 
 	}
 

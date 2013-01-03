@@ -10,11 +10,11 @@
 <?import javafx.scene.text.*?>
 <?import edu.application.login.paneAndController.*?>
 
-<AnchorPaneAndControler id="AnchorPaneAndControler"
+<AnchorPane id="view" fx:id="view"
 	stylesheets="fxmlExample.css" maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="153.0"
 	prefWidth="255.0" xmlns:fx="http://javafx.com/fxml"
-	fx:controller="edu.application.login.paneAndController.AnchorPaneAndControler">
+	fx:controller="edu.application.login.paneAndController.LoginDialogController">
 	<children>
 		<GridPane hgap="10.0" layoutX="1.0" layoutY="32.0"
 			prefHeight="121.0" prefWidth="254.0" vgap="10.0">
@@ -69,4 +69,4 @@
 			</font>
 		</Text>
 	</children>
-</AnchorPaneAndControler>
+</AnchorPane>
