@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.pantry.modelMapper">
+	<select id="selectPerson" parameterType="int" resultType="Personne">
+		SELECT
+		ID as "id",
+		NOM as "nom",
+		PRENOM as "prenom"
+		FROM PERSON WHERE ID = #{id}
+	</select>
+
+	<insert id="insertPerson" parameterType="Personne">
+		insert into PERSON (NOM,PRENOM)
+		values (#{nom},#{prenom})
+	</insert>
+
+	<update id="updatePerson" parameterType="Personne">
+		update PERSON set
+		NOM = #{nom},
+		PRENOM = #{prenom}
+		where ID = #{id}
+	</update>
+
+</mapper>
