@@ -1,0 +1,4 @@
+For Spring 3.0
+
+use some XML context. 
+show how spring can use a bean which is a factory for one other bean 

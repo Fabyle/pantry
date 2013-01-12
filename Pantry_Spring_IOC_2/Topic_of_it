@@ -1,0 +1,4 @@
+For Spring 3.0
+
+use the annotation called @Configuration 
+and use the annotation called @Autowired
