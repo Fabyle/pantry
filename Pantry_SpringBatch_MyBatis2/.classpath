@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/test"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_10"/>
+	<classpathentry kind="lib" path="lib-MyBatis/asm-3.3.1.jar"/>
+	<classpathentry kind="lib" path="lib-MyBatis/cglib-2.2.2.jar"/>
+	<classpathentry kind="lib" path="lib-MyBatis/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib-MyBatis/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="lib-MyBatis/mybatis-3.1.1.jar"/>
+	<classpathentry kind="lib" path="lib-MyBatis/slf4j-api-1.6.2.jar"/>
+	<classpathentry kind="lib" path="lib-MyBatis/slf4j-log4j12-1.6.2.jar"/>
+	<classpathentry kind="lib" path="lib-db/hsqldb.jar"/>
+	<classpathentry kind="lib" path="lib-SpringBatch/spring-batch-core-2.1.9.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib-SpringBatch/spring-batch-core-2.1.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib-SpringBatch/spring-batch-infrastructure-2.1.9.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib-SpringBatch/spring-batch-infrastructure-2.1.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib-Spring/spring-beans-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib-Spring/spring-context-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib-Spring/spring-core-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib-Spring/spring-expression-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib-mybatis-spring/mybatis-spring-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/aopalliance-1.0.jar"/>
+	<classpathentry kind="lib" path="lib-Spring/spring-aop-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib-Spring/spring-tx-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib-Spring/spring-jdbc-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/c3p0-0.9.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/xstream-1.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/jettison-1.0.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

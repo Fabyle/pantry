@@ -1,0 +1,15 @@
+http://localhost:8080/Pantry-Spring-web/toto/*
+
+check in server.xml 
+
+<Context docBase="Pantry-Spring-web" path="/Pantry-Spring-web" 
+reloadable="true" 
+source="org.eclipse.jst.jee.server:Pantry-Spring-web"/></Host>
+
+and web.xml 
+
+<servlet-mapping>
+		<servlet-name>UneServletSimple</servlet-name>
+		<url-pattern>/toto/*</url-pattern>
+</servlet-mapping>
+
