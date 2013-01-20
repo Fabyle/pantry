@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="xro"
+		class="com.fabyle.team.managing.teamManagingDomain.domain.Resource">
+		<property name="id">
+			<value>"xro"</value>
+		</property>
+		<property name="nom">
+			<value>"Robert"</value>
+		</property>
+		<property name="prenom">
+			<value>"Xavier"</value>
+		</property>
+	</bean>
+	<bean id="yba"
+		class="com.fabyle.team.managing.teamManagingDomain.domain.Resource">
+		<property name="id">
+			<value>"yba"</value>
+		</property>
+		<property name="nom">
+			<value>"Barukh"</value>
+		</property>
+		<property name="prenom">
+			<value>"Yohan"</value>
+		</property>
+
+	</bean>
+	<bean id="nma"
+		class="com.fabyle.team.managing.teamManagingDomain.domain.Resource">
+		<property name="id">
+			<value>"nma"</value>
+		</property>
+		<property name="nom">
+			<value>"Massot"</value>
+		</property>
+		<property name="prenom">
+			<value>"Nicolas"</value>
+		</property>
+
+	</bean>
+
+
+
+</beans>

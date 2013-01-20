@@ -1,0 +1,130 @@
+2013-01-03 17:22:33,852 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:61] Initialisation du binding avec le modele
+2013-01-03 17:22:36,584 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:36,737 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:36,905 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:38,265 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:38,481 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:38,634 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:42,096 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:42,256 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:42,401 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: false]
+2013-01-03 17:22:44,297 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:44,537 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:44,744 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:22:46,620 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:95] Action sur le bouton OK pour le login : ttt
+2013-01-03 17:23:17,218 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:61] Initialisation du binding avec le modele
+2013-01-03 17:23:19,947 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:23:20,081 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:23:20,824 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:23:20,968 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:23:21,629 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:95] Action sur le bouton OK pour le login : ff
+2013-01-03 17:24:22,623 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:61] Initialisation du binding avec le modele
+2013-01-03 17:24:24,989 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:24:25,136 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:24:25,880 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:24:26,040 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:24:31,060 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:95] Action sur le bouton OK pour le login : dd
+2013-01-03 17:25:02,302 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:61] Initialisation du binding avec le modele
+2013-01-03 17:25:05,294 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:115] Action sur le bouton Annuler
+2013-01-03 17:25:30,279 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:61] Initialisation du binding avec le modele
+2013-01-03 17:26:08,091 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:26:08,270 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:26:08,407 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:26:09,407 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:26:09,582 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:26:09,726 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:40:55,733 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:64] Initialisation du binding avec le modele
+2013-01-03 17:40:58,108 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:40:58,340 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:40:58,988 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:40:59,148 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:40:59,308 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:40:59,985 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:98] Action sur le bouton OK pour le login : dd
+2013-01-03 17:43:53,327 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:64] Initialisation du binding avec le modele
+2013-01-03 17:43:55,743 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:43:55,874 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:43:56,483 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:43:56,626 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 17:43:57,615 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:98] Action sur le bouton OK pour le login : dd
+2013-01-03 18:05:29,671 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:65] Initialisation du binding avec le modele
+2013-01-03 18:05:51,304 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:05:51,483 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:05:52,323 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:05:52,499 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:05:53,180 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:99] Action sur le bouton OK pour le login : ee
+2013-01-03 18:08:14,087 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:66] Initialisation du binding avec le modele
+2013-01-03 18:08:16,632 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:08:16,793 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:08:17,833 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:08:17,977 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:08:18,576 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:100] Action sur le bouton OK pour le login : ss
+2013-01-03 18:10:03,961 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:66] Initialisation du binding avec le modele
+2013-01-03 18:10:06,021 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:10:06,784 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:10:07,468 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:100] Action sur le bouton OK pour le login : s
+2013-01-03 18:10:14,916 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:120] Action sur le bouton Annuler
+2013-01-03 18:14:12,581 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:66] Initialisation du binding avec le modele
+2013-01-03 18:14:53,962 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:66] Initialisation du binding avec le modele
+2013-01-03 18:14:57,050 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:14:57,389 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:14:58,853 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:14:59,085 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:15:02,292 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:15:04,317 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: false]
+2013-01-03 18:15:05,989 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: false]
+2013-01-03 18:15:06,612 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: false]
+2013-01-03 18:15:14,813 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:15:14,964 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:15:15,108 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:15:16,086 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:15:16,244 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:15:16,380 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:15:17,379 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:100] Action sur le bouton OK pour le login : eee
+2013-01-03 18:15:29,841 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:100] Action sur le bouton OK pour le login : eee
+2013-01-03 18:15:30,481 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:120] Action sur le bouton Annuler
+2013-01-03 18:16:04,208 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:66] Initialisation du binding avec le modele
+2013-01-03 18:16:05,425 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:16:05,580 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:16:05,740 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:16:06,684 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:16:06,852 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:16:07,132 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:16:08,732 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: false]
+2013-01-03 18:16:10,316 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: false]
+2013-01-03 18:16:12,121 INFO [JavaFX Application Thread] e.a.l.p.AnchorPaneAndControler [AnchorPaneAndControler.java:120] Action sur le bouton Annuler
+2013-01-03 18:17:21,119 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:66] Initialisation du binding avec le modele
+2013-01-03 18:17:22,842 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:17:23,019 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:17:23,155 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:17:24,464 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:17:24,627 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:17:24,771 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:17:25,968 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:100] Action sur le bouton OK pour le login : ddd
+2013-01-03 18:17:27,748 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:120] Action sur le bouton Annuler
+2013-01-03 18:32:43,204 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:74] Initialisation du binding avec le modele
+2013-01-03 18:34:22,398 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:74] Initialisation du binding avec le modele
+2013-01-03 18:34:22,496 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:74] Initialisation du binding avec le modele
+2013-01-03 18:35:05,017 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:74] Initialisation du binding avec le modele
+2013-01-03 18:35:05,131 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:74] Initialisation du binding avec le modele
+2013-01-03 18:37:06,975 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:74] Initialisation du binding avec le modele
+2013-01-03 18:38:32,739 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:74] Initialisation du binding avec le modele
+2013-01-03 18:39:18,350 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:74] Initialisation du binding avec le modele
+2013-01-03 18:41:08,996 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:74] Initialisation du binding avec le modele
+2013-01-03 18:41:11,716 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:41:11,858 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:41:12,002 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:41:12,738 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:41:12,890 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:41:13,033 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:41:13,711 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:108] Action sur le bouton OK pour le login : ddd
+2013-01-03 18:41:57,578 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:74] Initialisation du binding avec le modele
+2013-01-03 18:41:59,500 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:41:59,649 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:41:59,770 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:42:00,282 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:42:00,433 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:42:00,585 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:42:01,617 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:42:02,375 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:108] Action sur le bouton OK pour le login : ddd
+2013-01-03 18:42:04,754 DEBUG [JavaFX Application Thread] e.a.l.p.InputMaskChecker [InputMaskChecker.java:49] valeur de valide BooleanProperty [value: true]
+2013-01-03 18:42:06,060 INFO [JavaFX Application Thread] e.a.l.p.LoginDialogController [LoginDialogController.java:108] Action sur le bouton OK pour le login : ddd

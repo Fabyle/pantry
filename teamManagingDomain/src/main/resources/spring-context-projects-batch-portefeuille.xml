@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="spring-context-projects-root.xml" />
+
+	<!-- ----------------------------------------------------------------------------------------- -->
+	<!-- ------------------------- LE PROJET ----------------------------------------------------- -->
+	<!-- ----------------------------------------------------------------------------------------- -->
+
+	<bean id="batch-portefeuille"
+		class="com.fabyle.team.managing.teamManagingDomain.domain.Project">
+		<property name="nom">
+			<value>"batch-portefeuille"</value>
+		</property>
+		<property name="commentaires">
+			<value>"Batch permettant de générer des fichiers de portefeuille
+				issue de la BCB."
+			</value>
+		</property>
+		<property name="dateFinContrainte">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="31-03-2012" />
+			</bean>
+		</property>
+		<property name="etapes">
+			<list>
+				<ref bean="batch-portefeuille-specification" />
+				<ref bean="batch-portefeuille-conception" />
+				<ref bean="batch-portefeuille-developpement" />
+				<ref bean="batch-portefeuille-validation" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- ----------------------------------------------------------------------------------------- -->
+	<!-- ------------------------- LES ETAPES----------------------------------------------------- -->
+	<!-- ----------------------------------------------------------------------------------------- -->
+
+
+	<bean id="batch-portefeuille-specification" class="com.fabyle.team.managing.teamManagingDomain.domain.Step">
+		<property name="nom">
+			<value>"batch-portefeuille-specification"</value>
+		</property>
+		<property name="type">
+			<value>"SPECIFICATION"</value>
+		</property>
+	</bean>
+
+	<bean id="batch-portefeuille-conception" class="com.fabyle.team.managing.teamManagingDomain.domain.Step">
+		<property name="nom">
+			<value>"batch-portefeuille-conception"</value>
+		</property>
+		<property name="type">
+			<value>"CONCEPTION"</value>
+		</property>
+		<property name="prerequis">
+			<ref bean="batch-portefeuille-specification" />
+		</property>
+	</bean>
+
+	<bean id="batch-portefeuille-developpement" class="com.fabyle.team.managing.teamManagingDomain.domain.Step">
+		<property name="nom">
+			<value>"batch-portefeuille-developpement"</value>
+		</property>
+		<property name="type">
+			<value>"DEVELOPPEMENT"</value>
+		</property>
+		<property name="prerequis">
+			<ref bean="batch-portefeuille-conception" />
+		</property>
+	</bean>
+
+	<bean id="batch-portefeuille-validation" class="com.fabyle.team.managing.teamManagingDomain.domain.Step">
+		<property name="nom">
+			<value>"batch-portefeuille-validation"</value>
+		</property>
+		<property name="type">
+			<value>"VALIDATION"</value>
+		</property>
+		<property name="prerequis">
+			<ref bean="batch-portefeuille-developpement" />
+		</property>
+	</bean>
+	
+	<!-- ----------------------------------------------------------------------------------------- -->
+	<!-- ------------------------- LA PLANIFICATION ---------------------------------------------- -->
+	<!-- ----------------------------------------------------------------------------------------- -->
+
+
+
+</beans>
