@@ -68,6 +68,7 @@ public class CalendarServicesImp implements ICalendarServices {
 
 	CalendarService service;
 	private String userName;
+	private List<Date> daysoff;
 
 	/**
 	 * initialisation du service
@@ -95,6 +96,13 @@ public class CalendarServicesImp implements ICalendarServices {
 					"https://www.google.com/calendar/feeds/hj0276lr9bv2imehq7toae374k%40group.calendar.google.com/private/full");
 		} catch (MalformedURLException e) {
 			LOGGER.debug("Anomalie creation de l'URL du service", e);
+		}
+		
+		try {
+			daysoff = this.getDaysoffInFrance();
+		} catch (IOException | ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -133,6 +141,9 @@ public class CalendarServicesImp implements ICalendarServices {
 	@Override
 	public void deleteCalendar(String calendarTitle) throws IOException,
 			ServiceException {
+
+		System.setProperty("http.proxyHost", "systproxy.si.fr");
+		System.setProperty("http.proxyPort", "8080");
 
 		LOGGER.info("suppression des calendriers de titre {}", calendarTitle);
 		List<CalendarEntry> listVerifiantTitle = searchCalendar(calendarTitle);
@@ -195,13 +206,14 @@ public class CalendarServicesImp implements ICalendarServices {
 					Link.Type.ATOM).getHref());
 
 			List<String> datesString = listOfDays(startDateS, endDateS);
-			
+
 			int jour = 0;
 
 			for (String dateS : datesString) {
 				jour++;
-				CalendarEventEntry newEntry = this.createEventEntryForDayWork(
-						eventTitle+"(jour:"+jour+")", commentaries, dateS);
+				CalendarEventEntry newEntry = this
+						.createEventEntryForDayWork(eventTitle + "(jour:"
+								+ jour + ")", commentaries, dateS);
 				BatchUtils.setBatchId(newEntry, String.valueOf(1));
 				BatchUtils.setBatchOperationType(newEntry,
 						BatchOperationType.INSERT);
@@ -222,14 +234,40 @@ public class CalendarServicesImp implements ICalendarServices {
 				String batchId = BatchUtils.getBatchId(entry);
 				if (!BatchUtils.isSuccess(entry)) {
 					BatchStatus status = BatchUtils.getBatchStatus(entry);
-					LOGGER.warn(
-							"Anomalie lors du déclenchement du batch  {}, pour la raison {} et le statut {}",
-							batchId, status.getReason(), status.getContent());
+					LOGGER.warn("Anomalie lors du déclenchement du batch ");
 				}
 
 			}
 
 		}
+	}
+
+	
+	/**
+	 * @return
+	 * @throws IOException
+	 * @throws ServiceException
+	 */
+	private List<Date> getDaysoffInFrance() throws IOException, ServiceException {
+
+		List<Date> retour = new ArrayList<Date>();
+		
+		CalendarEventFeed resultFeed = service
+				.getFeed(
+						new URL(
+								"https://www.google.com/calendar/feeds/fr.french%23holiday%40group.v.calendar.google.com/public/full?singleevents=true"),
+						CalendarEventFeed.class);
+
+		for (int i = 0; i < resultFeed.getEntries().size(); i++) {
+			CalendarEventEntry entry = resultFeed.getEntries().get(i);
+			
+			List<When> whens = entry.getTimes();
+						
+			retour.add(new Date(whens.get(0).getStartTime().getValue()));	
+
+		}
+		return retour;
+
 	}
 
 	/**
@@ -245,13 +283,14 @@ public class CalendarServicesImp implements ICalendarServices {
 			Date dateFin = format.parse(endDateS);
 
 			if (dateDebut.before(dateFin)) {
-				addDateOfWorkUnderControl(dateDebut,format,datesString);
+				addDateOfWorkUnderControl(dateDebut, format, datesString);
 				while (dateDebut.before(dateFin)) {
 					dateDebut = new Date(dateDebut.getTime()
 							+ TimeUnit.DAYS.toMillis(1));
-					addDateOfWorkUnderControl(dateDebut,format,datesString);;
+					addDateOfWorkUnderControl(dateDebut, format, datesString);
+					;
 				}
-				addDateOfWorkUnderControl(dateFin,format,datesString);
+				addDateOfWorkUnderControl(dateFin, format, datesString);
 			}
 
 		} catch (ParseException e) {
@@ -259,14 +298,27 @@ public class CalendarServicesImp implements ICalendarServices {
 		}
 		return datesString;
 	}
-	
-	
-	private void addDateOfWorkUnderControl(Date dateToAdd,SimpleDateFormat format,List<String> destination){
-		// ajouter les jours fériés
-		GregorianCalendar cal= (GregorianCalendar) GregorianCalendar.getInstance();
+
+	private void addDateOfWorkUnderControl(Date dateToAdd,
+			SimpleDateFormat format, List<String> destination) {
+		
+		//jour férié
+		String dateToAddS = format.format(dateToAdd);
+		for (Date dateferie : daysoff) {
+			String dateFerieS = format.format(dateferie);			
+			if (dateFerieS.equals(dateToAddS)){
+				return;
+			}
+		}
+				
+		GregorianCalendar cal = (GregorianCalendar) GregorianCalendar
+				.getInstance();
 		cal.setTime(dateToAdd);
-		if (cal.get(Calendar.DAY_OF_WEEK)!= GregorianCalendar.SUNDAY && cal.get(Calendar.DAY_OF_WEEK)!= GregorianCalendar.SATURDAY){
-			destination.add(format.format(dateToAdd));
+		
+				
+		if (cal.get(Calendar.DAY_OF_WEEK) != GregorianCalendar.SUNDAY
+				&& cal.get(Calendar.DAY_OF_WEEK) != GregorianCalendar.SATURDAY) {
+			destination.add(dateToAddS);
 		}
 	}
 
