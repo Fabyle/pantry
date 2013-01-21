@@ -97,9 +97,9 @@ public class CalendarServicesImp implements ICalendarServices {
 		} catch (MalformedURLException e) {
 			LOGGER.debug("Anomalie creation de l'URL du service", e);
 		}
-		
+
 		try {
-			daysoff = this.getDaysoffInFrance();
+			daysoff = this.getDaysOffInFrance();
 		} catch (IOException | ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -195,6 +195,17 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	@Override
+	public void addDaysOfWorkNumber(String calendarTitle, String eventTitle,
+			String commentaries, String startDateS, int numberOfDays)
+			throws IOException, ServiceException {
+				
+		List<String> list = this.listOfDaysNumber(startDateS,numberOfDays);
+		this.addDaysOfWork(calendarTitle,  eventTitle,
+				 commentaries,  list.get(0),  list.get(list.size()-1));
+
+	}
+
+	@Override
 	public void addDaysOfWork(String calendarTitle, String eventTitle,
 			String commentaries, String startDateS, String endDateS)
 			throws IOException, ServiceException {
@@ -212,8 +223,8 @@ public class CalendarServicesImp implements ICalendarServices {
 			for (String dateS : datesString) {
 				jour++;
 				CalendarEventEntry newEntry = this
-						.createEventEntryForDayWork(eventTitle + "(jour:"
-								+ jour + ")", commentaries, dateS);
+						.createEventEntryForDayWork(eventTitle + " (jour : "
+								+ jour + ")", commentaries + "\n"+new Date(), dateS);
 				BatchUtils.setBatchId(newEntry, String.valueOf(1));
 				BatchUtils.setBatchOperationType(newEntry,
 						BatchOperationType.INSERT);
@@ -242,16 +253,16 @@ public class CalendarServicesImp implements ICalendarServices {
 		}
 	}
 
-	
 	/**
 	 * @return
 	 * @throws IOException
 	 * @throws ServiceException
 	 */
-	private List<Date> getDaysoffInFrance() throws IOException, ServiceException {
+	private List<Date> getDaysOffInFrance() throws IOException,
+			ServiceException {
 
 		List<Date> retour = new ArrayList<Date>();
-		
+
 		CalendarEventFeed resultFeed = service
 				.getFeed(
 						new URL(
@@ -260,11 +271,28 @@ public class CalendarServicesImp implements ICalendarServices {
 
 		for (int i = 0; i < resultFeed.getEntries().size(); i++) {
 			CalendarEventEntry entry = resultFeed.getEntries().get(i);
-			
-			List<When> whens = entry.getTimes();
-						
-			retour.add(new Date(whens.get(0).getStartTime().getValue()));	
 
+			List<When> whens = entry.getTimes();
+
+			retour.add(new Date(whens.get(0).getStartTime().getValue()));
+
+		}
+		return retour;
+	}
+
+	/**
+	 * @return
+	 */
+	private List<Date> getDaysOffSystalians() {
+		List<Date> retour = new ArrayList<Date>();
+		String tab2[] = { "2013-05-10", "2013-08-16", "2013-05-08"};
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		for (int i = 0; i < tab2.length; i++) {
+			try {
+				retour.add(format.parse(tab2[i]));
+			} catch (ParseException e) {
+				LOGGER.debug("Erreur de parsing", e);
+			}
 		}
 		return retour;
 
@@ -290,7 +318,7 @@ public class CalendarServicesImp implements ICalendarServices {
 					addDateOfWorkUnderControl(dateDebut, format, datesString);
 					;
 				}
-				addDateOfWorkUnderControl(dateFin, format, datesString);
+				
 			}
 
 		} catch (ParseException e) {
@@ -299,23 +327,61 @@ public class CalendarServicesImp implements ICalendarServices {
 		return datesString;
 	}
 
+	/**
+	 * @param startDateS
+	 * @param number
+	 * @return
+	 */
+	private List<String> listOfDaysNumber(String startDateS, int numberOfDays) {
+		List<String> datesString = new ArrayList<String>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date dateDebut;
+		try {
+			dateDebut = format.parse(startDateS);
+			addDateOfWorkUnderControl(dateDebut, format, datesString);
+			while (datesString.size() < numberOfDays) {
+				dateDebut = new Date(dateDebut.getTime()
+						+ TimeUnit.DAYS.toMillis(1));
+				addDateOfWorkUnderControl(dateDebut, format, datesString);
+
+			}
+		} catch (ParseException e) {
+			LOGGER.error("Erreur de parsing");
+		}
+
+		return datesString;
+	}
+
+	/**
+	 * @param dateToAdd
+	 * @param format
+	 * @param destination
+	 */
 	private void addDateOfWorkUnderControl(Date dateToAdd,
 			SimpleDateFormat format, List<String> destination) {
-		
-		//jour férié
+
+		// jour férié
 		String dateToAddS = format.format(dateToAdd);
 		for (Date dateferie : daysoff) {
-			String dateFerieS = format.format(dateferie);			
-			if (dateFerieS.equals(dateToAddS)){
+			String dateFerieS = format.format(dateferie);
+			if (dateFerieS.equals(dateToAddS)) {
 				return;
 			}
 		}
-				
+
+		// jour systalians
+		List<Date> dateSystalians = this.getDaysOffSystalians();
+		for (Date dateSys : dateSystalians) {
+			String dateSysS = format.format(dateSys);
+			if (dateSysS.equals(dateToAddS)) {
+				return;
+			}
+		}
+
 		GregorianCalendar cal = (GregorianCalendar) GregorianCalendar
 				.getInstance();
 		cal.setTime(dateToAdd);
-		
-				
+
 		if (cal.get(Calendar.DAY_OF_WEEK) != GregorianCalendar.SUNDAY
 				&& cal.get(Calendar.DAY_OF_WEEK) != GregorianCalendar.SATURDAY) {
 			destination.add(dateToAddS);
@@ -334,9 +400,9 @@ public class CalendarServicesImp implements ICalendarServices {
 		CalendarEventEntry myEntry = new CalendarEventEntry();
 		myEntry.setTitle(new PlainTextConstruct(eventTitle));
 		myEntry.setContent(new PlainTextConstruct(commentaries));
-
-		DateTime startTime = DateTime.parseDateTime(date + "T09:00:00-00:00");
-		DateTime endTime = DateTime.parseDateTime(date + "T18:00:00-00:00");
+		
+		DateTime startTime = DateTime.parseDateTime(date + "T08:00:00+01:00");
+		DateTime endTime = DateTime.parseDateTime(date + "T17:00:00+01:00");
 		// "2013-01-30T10:00:00-08:00"
 
 		When eventTimes = new When();
