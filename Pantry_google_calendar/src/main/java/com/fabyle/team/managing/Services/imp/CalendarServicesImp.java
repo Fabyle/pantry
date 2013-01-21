@@ -41,11 +41,8 @@ public class CalendarServicesImp implements ICalendarServices {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(CalendarServicesImp.class);
 
-	// The HEX representation of red, blue and green
-	private static final String RED = "#A32929";
-	private static final String BLUE = "#2952A3";
-	private static final String GREEN = "#0D7813";
-
+	
+	
 	// The base URL for a user's calendar metafeed (needs a username appended).
 	private static final String METAFEED_URL_BASE = "https://www.google.com/calendar/feeds/";
 

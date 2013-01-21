@@ -29,9 +29,6 @@ public class ICalendarServiceTest extends TestCase {
 
 	ICalendarServices service = new CalendarServicesImp();
 	
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty("http.proxyHost", "truc.si.fr");
@@ -41,12 +38,12 @@ public class ICalendarServiceTest extends TestCase {
 		System.setProperty("sun.net.spi.nameservice.provider.1", "dns,sun");
 		
 		ProxySelector.setDefault(new ProxySelector() {
-
+	
 	        @Override
 	        public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
 	            throw new RuntimeException("Proxy connect failed", ioe);
 	        }
-
+	
 	        @Override
 	        public List select(URI uri) {
 	        	List retour = new ArrayList();
@@ -63,9 +60,18 @@ public class ICalendarServiceTest extends TestCase {
 	            return retour;
 	        }
 	    });
-
+	
 		
-		service.init("truc@gmail.com","truc", "testService");
+		service.init("bte.truc@gmail.com","truc", "testService");
+	}
+	
+	public void testDeleteCalendar() {
+		try {
+			service.deleteCalendar("Xavier");
+		} catch (IOException | ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void testCreateCalendar() {
@@ -78,28 +84,31 @@ public class ICalendarServiceTest extends TestCase {
 		}
 	}
 	
-	public void testDeleteCalendar() {
-		try {
-			service.deleteCalendar("Xavier");
-		} catch (IOException | ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
-	public void testAddAnEvent() {
-		try {
-			service.addAnEvent("Xavier", "travail","commentaires", "2013-01-30T10:00:00-08:00", "2013-02-10T10:00:00-08:00");
-		} catch (IOException | ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
-	public void testAddADayofWork() {
+//	public void testAddAnEvent() {
+//		try {
+//			service.addAnEvent("Xavier", "travail","commentaires", "2013-01-30CET10:00:00-08:00", "2013-02-10CETT10:00:00-08:00");
+//		} catch (IOException | ServiceException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
+//	public void testAddADayofWork() {
+//		try {
+//			service.addDaysOfWork("Xavier", "travail2","commentaires2", "2013-04-28", "2013-05-20");
+//			//service.addDaysOfWork("NMA", "travail2","commentaires2", "2013-04-28", "2013-05-05");
+//		} catch (IOException | ServiceException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//	
+	public void testAddADayofWorkNumber() {
 		try {
-			service.addDaysOfWork("XRO", "travail2","commentaires2", "2013-04-28", "2013-05-05");
-			service.addDaysOfWork("NMA", "travail2","commentaires2", "2013-04-28", "2013-05-05");
+			service.addDaysOfWorkNumber("Xavier", "travailNumber","commentaires2", "2013-05-07", 3);
+			
 		} catch (IOException | ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

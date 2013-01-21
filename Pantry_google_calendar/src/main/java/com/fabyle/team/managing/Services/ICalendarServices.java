@@ -13,6 +13,8 @@ public interface ICalendarServices {
 	public static final String RED = "#A32929";
 	public static final String BLUE = "#2952A3";
 	public static final String GREEN = "#0D7813";
+	public static final String GREENLIGHT = "#25e7cc";
+	public static final String YELLOWBRAUN = "#e5e791";
 
 	/**
 	 * Creates a new secondary calendar using the owncalendars feed.
