@@ -12,6 +12,7 @@ import static com.fabyle.team.managing.Services.NomenclatureServices.P_VALID_BCN
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_VALID_EXPLOIT_P2;
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_VALID_GEC;
 import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_CONC_DEV;
+import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_CONCEPT;
 import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_SPEC;
 import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_VALIDATION;
 
@@ -126,6 +127,9 @@ public class CalendarServiceSemaine4 extends TestCase {
 		ajouteJoursDeTravail("Xavier", CLIENT_REUNICA + " - "
 				+ CONTRIBUTION_PALIER2 + " - " + TYPE_CONC_DEV + " - "
 				+ P_LANCEUR, "Lanceur Excel pour ESIC", "2013-01-21", 2, 60);
+		ajouteJoursDeTravail("Xavier",  CLIENT_REUNICA + " - "
+				+ CONTRIBUTION_PALIER2 + " - " + TYPE_CONCEPT + " - " + P_EXPORT_PTF, 
+				"conception pour le batch portefeuille", "2013-01-24", 4, 60);
 		ajouteJoursDeTravail("Nicolas", CLIENT_REUNICA + " - "
 				+ CONTRIBUTION_PALIER2 + " - " + TYPE_VALIDATION + " - "
 				+ P_VALID_GEC, "", "2013-01-21", 3, 60);
