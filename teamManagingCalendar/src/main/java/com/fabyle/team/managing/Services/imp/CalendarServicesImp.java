@@ -517,6 +517,10 @@ public class CalendarServicesImp implements ICalendarServices {
 
 	}
 
+	/**
+	 * @param urlOfAgenda
+	 * @return
+	 */
 	private List<Date> getDaysWithKnowEvent(URL urlOfAgenda) {
 		CalendarEventFeed resultFeed;
 		List<Date> retour = new ArrayList<Date>();
@@ -538,11 +542,15 @@ public class CalendarServicesImp implements ICalendarServices {
 
 	}
 
+	/**
+	 * @param calendarTitle
+	 * @return
+	 */
 	private URL rechercherURL(String calendarTitle) {
 
 		URL postUrl = null;
 		List<CalendarEntry> listVerifiantTitle = searchCalendar(calendarTitle);
-		CalendarEventFeed batchRequest = new CalendarEventFeed();
+		
 		for (CalendarEntry calendarEntry : listVerifiantTitle) {
 			try {
 				postUrl = new URL(calendarEntry.getLink(Link.Rel.ALTERNATE,
