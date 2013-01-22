@@ -48,10 +48,10 @@ public class ICalendarServiceTest extends TestCase {
 			public List select(URI uri) {
 				List retour = new ArrayList();
 				try {
-					// ip de systproxy.si.fr 172.21.248.249
+					// ip de gogo.si.fr gogo
 					retour = Arrays.asList(new Proxy(Proxy.Type.HTTP,
 							new InetSocketAddress(InetAddress
-									.getByName("172.21.248.249"), 8080)));
+									.getByName("gogo"), 8080)));
 				} catch (UnknownHostException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
