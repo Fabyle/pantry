@@ -195,7 +195,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	@Override
 	public void addDaysOfWorkNumber(String calendarTitle, String eventTitle,
 			String commentaries, String startDateS, int numberOfDays)
-			throws IOException, ServiceException {
+			throws IOException, ServiceException, EventCreationException {
 				
 		List<String> list = this.listOfDaysNumber(startDateS,numberOfDays);
 		this.addDaysOfWork(calendarTitle,  eventTitle,
@@ -206,7 +206,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	@Override
 	public void addDaysOfWork(String calendarTitle, String eventTitle,
 			String commentaries, String startDateS, String endDateS)
-			throws IOException, ServiceException {
+			throws IOException, ServiceException, EventCreationException {
 
 		List<CalendarEntry> listVerifiantTitle = searchCalendar(calendarTitle);
 		CalendarEventFeed batchRequest = new CalendarEventFeed();
@@ -279,7 +279,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 	
 	
-	private boolean isOkForInsert(URL urlOfAgenda,String eventTitle){
+	private boolean isOkForInsert(URL urlOfAgenda,String eventTitle) throws EventCreationException{
 		CalendarEventFeed resultFeed;
 		try {
 			resultFeed = service
@@ -416,9 +416,10 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * @param commentaries
 	 * @param date
 	 * @return
+	 * @throws EventCreationException 
 	 */
 	private CalendarEventEntry createEventEntryForDayWork(String eventTitle,
-			String commentaries, String date,URL urlofAgenda) {
+			String commentaries, String date,URL urlofAgenda) throws EventCreationException {
 		
 		if (!isOkForInsert(urlofAgenda,eventTitle)) return null;
 

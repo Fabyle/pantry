@@ -1,6 +1,6 @@
 package com.fabyle.team.Services.exception;
 
-public class EventCreationException extends RuntimeException {
+public class EventCreationException extends Exception {
 
 	/**
 	 * 
