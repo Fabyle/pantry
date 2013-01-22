@@ -211,8 +211,8 @@ public class CalendarServicesImp implements ICalendarServices {
 
 		URL postUrl = rechercherURL(calendarTitle);
 
-		List<String> list = this.listOfDaysNumber(startDateS, numberOfDays,rate,
-				postUrl);
+		List<String> list = this.listOfDaysNumber(startDateS, numberOfDays,
+				rate, postUrl);
 		addDaysOfWork(calendarTitle, eventTitle, commentaries, list.get(0),
 				list.get(list.size() - 1), postUrl);
 
@@ -360,18 +360,15 @@ public class CalendarServicesImp implements ICalendarServices {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Date dateDebut = format.parse(startDateS);
 			Date dateFin = format.parse(endDateS);
+			addDateOfWorkUnderControl(dateDebut, format, datesString,
+					urlOfAgenda);
 
-			if (dateDebut.before(dateFin)) {
+			while (dateDebut.before(dateFin)) {
+				dateDebut = new Date(dateDebut.getTime()
+						+ TimeUnit.DAYS.toMillis(1));
 				addDateOfWorkUnderControl(dateDebut, format, datesString,
 						urlOfAgenda);
-				while (dateDebut.before(dateFin)) {
-					dateDebut = new Date(dateDebut.getTime()
-							+ TimeUnit.DAYS.toMillis(1));
-					addDateOfWorkUnderControl(dateDebut, format, datesString,
-							urlOfAgenda);
-					;
-				}
-
+				;
 			}
 
 		} catch (ParseException e) {
@@ -550,7 +547,7 @@ public class CalendarServicesImp implements ICalendarServices {
 
 		URL postUrl = null;
 		List<CalendarEntry> listVerifiantTitle = searchCalendar(calendarTitle);
-		
+
 		for (CalendarEntry calendarEntry : listVerifiantTitle) {
 			try {
 				postUrl = new URL(calendarEntry.getLink(Link.Rel.ALTERNATE,

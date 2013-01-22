@@ -28,5 +28,10 @@ public interface NomenclatureServices {
 	public static final String P_EXPORT_PTF = "Batch export PTF";	
 	public static final String P_VALID_BCN = "Batch import BCN";
 	public static final String P_VALID_GEC = "Batch GEC";
+	public static final String P_VALID_EXPLOIT_P2 = "Montée en charge P2";
+	// suivi de VGS - pré-requis il faut un acces à EPV. NMA
+	public static final String P_VALID_VGS_P2 = "Suivi exploitation VGS";
+	public static final String P_VALID_EXTRACT = "Validation des extracteurs UR";
+	
 
 }
