@@ -70,6 +70,10 @@ public interface ICalendarServices {
 			String commentaries, String startDateS, int numberOfDays) throws IOException,
 			ServiceException, EventCreationException;
 
+	public abstract void addDaysOfWorkNumber(String calendarTitle, String eventTitle,
+			String commentaries, String startDateS, int numberOfDays, int rate)
+			throws IOException, ServiceException, EventCreationException;
+
 	
 
 

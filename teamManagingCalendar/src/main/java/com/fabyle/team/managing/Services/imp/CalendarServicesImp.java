@@ -42,8 +42,6 @@ public class CalendarServicesImp implements ICalendarServices {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(CalendarServicesImp.class);
 
-	
-	
 	// The base URL for a user's calendar metafeed (needs a username appended).
 	private static final String METAFEED_URL_BASE = "https://www.google.com/calendar/feeds/";
 
@@ -196,10 +194,27 @@ public class CalendarServicesImp implements ICalendarServices {
 	public void addDaysOfWorkNumber(String calendarTitle, String eventTitle,
 			String commentaries, String startDateS, int numberOfDays)
 			throws IOException, ServiceException, EventCreationException {
-				
-		List<String> list = this.listOfDaysNumber(startDateS,numberOfDays);
-		this.addDaysOfWork(calendarTitle,  eventTitle,
-				 commentaries,  list.get(0),  list.get(list.size()-1));
+
+		URL postUrl = rechercherURL(calendarTitle);
+
+		List<String> list = this.listOfDaysNumber(startDateS, numberOfDays,
+				postUrl);
+		addDaysOfWork(calendarTitle, eventTitle, commentaries, list.get(0),
+				list.get(list.size() - 1), postUrl);
+
+	}
+
+	@Override
+	public void addDaysOfWorkNumber(String calendarTitle, String eventTitle,
+			String commentaries, String startDateS, int numberOfDays, int rate)
+			throws IOException, ServiceException, EventCreationException {
+
+		URL postUrl = rechercherURL(calendarTitle);
+
+		List<String> list = this.listOfDaysNumber(startDateS, numberOfDays,rate,
+				postUrl);
+		addDaysOfWork(calendarTitle, eventTitle, commentaries, list.get(0),
+				list.get(list.size() - 1), postUrl);
 
 	}
 
@@ -208,47 +223,62 @@ public class CalendarServicesImp implements ICalendarServices {
 			String commentaries, String startDateS, String endDateS)
 			throws IOException, ServiceException, EventCreationException {
 
-		List<CalendarEntry> listVerifiantTitle = searchCalendar(calendarTitle);
+		URL postUrl = rechercherURL(calendarTitle);
+		addDaysOfWork(calendarTitle, eventTitle, commentaries, startDateS,
+				endDateS, postUrl);
+
+	}
+
+	/**
+	 * @param calendarTitle
+	 * @param eventTitle
+	 * @param commentaries
+	 * @param startDateS
+	 * @param endDateS
+	 * @param postUrl
+	 * @throws IOException
+	 * @throws ServiceException
+	 * @throws EventCreationException
+	 */
+	private void addDaysOfWork(String calendarTitle, String eventTitle,
+			String commentaries, String startDateS, String endDateS, URL postUrl)
+			throws IOException, ServiceException, EventCreationException {
+
 		CalendarEventFeed batchRequest = new CalendarEventFeed();
-		for (CalendarEntry calendarEntry : listVerifiantTitle) {
-			URL postUrl = new URL(calendarEntry.getLink(Link.Rel.ALTERNATE,
-					Link.Type.ATOM).getHref());
 
-			List<String> datesString = listOfDays(startDateS, endDateS);
+		List<String> datesString = listOfDays(startDateS, endDateS, postUrl);
 
-			int jour = 0;
+		int jour = 0;
 
-			for (String dateS : datesString) {
-				jour++;
-				CalendarEventEntry newEntry = this
-						.createEventEntryForDayWork(eventTitle + " (jour : "
-								+ jour + ")", commentaries + "\n"+new Date(), dateS,postUrl);
-				BatchUtils.setBatchId(newEntry, String.valueOf(1));
-				BatchUtils.setBatchOperationType(newEntry,
-						BatchOperationType.INSERT);
-				batchRequest.getEntries().add(newEntry);
-			}
+		for (String dateS : datesString) {
+			jour++;
+			CalendarEventEntry newEntry = this.createEventEntryForDayWork(
+					eventTitle + " (jour : " + jour + ")", commentaries + "\n"
+							+ new Date(), dateS, postUrl);
+			BatchUtils.setBatchId(newEntry, String.valueOf(1));
+			BatchUtils.setBatchOperationType(newEntry,
+					BatchOperationType.INSERT);
+			batchRequest.getEntries().add(newEntry);
+		}
 
-			// Get the URL to make batch requests to
-			CalendarEventFeed feed = service.getFeed(postUrl,
-					CalendarEventFeed.class);
-			Link batchLink = feed.getLink(Link.Rel.FEED_BATCH, Link.Type.ATOM);
-			URL batchUrl = new URL(batchLink.getHref());
+		// Get the URL to make batch requests to
+		CalendarEventFeed feed = service.getFeed(postUrl,
+				CalendarEventFeed.class);
+		Link batchLink = feed.getLink(Link.Rel.FEED_BATCH, Link.Type.ATOM);
+		URL batchUrl = new URL(batchLink.getHref());
 
-			// Submit the batch request
-			CalendarEventFeed batchResponse = service.batch(batchUrl,
-					batchRequest);
+		// Submit the batch request
+		CalendarEventFeed batchResponse = service.batch(batchUrl, batchRequest);
 
-			for (CalendarEventEntry entry : batchResponse.getEntries()) {
-				String batchId = BatchUtils.getBatchId(entry);
-				if (!BatchUtils.isSuccess(entry)) {
-					BatchStatus status = BatchUtils.getBatchStatus(entry);
-					LOGGER.warn("Anomalie lors du déclenchement du batch ");
-				}
-
+		for (CalendarEventEntry entry : batchResponse.getEntries()) {
+			String batchId = BatchUtils.getBatchId(entry);
+			if (!BatchUtils.isSuccess(entry)) {
+				BatchStatus status = BatchUtils.getBatchStatus(entry);
+				LOGGER.warn("Anomalie lors du déclenchement du batch ");
 			}
 
 		}
+
 	}
 
 	/**
@@ -277,29 +307,26 @@ public class CalendarServicesImp implements ICalendarServices {
 		}
 		return retour;
 	}
-	
-	
-	private boolean isOkForInsert(URL urlOfAgenda,String eventTitle) throws EventCreationException{
+
+	private boolean isOkForInsert(URL urlOfAgenda, String eventTitle)
+			throws EventCreationException {
 		CalendarEventFeed resultFeed;
+
 		try {
-			resultFeed = service
-					.getFeed(urlOfAgenda,CalendarEventFeed.class);
+			resultFeed = service.getFeed(urlOfAgenda, CalendarEventFeed.class);
 			for (int i = 0; i < resultFeed.getEntries().size(); i++) {
 				CalendarEventEntry entry = resultFeed.getEntries().get(i);
-				if (entry.getTitle().getPlainText().equals(eventTitle)){
+				if (entry.getTitle().getPlainText().equals(eventTitle)) {
 					throw new EventCreationException();
 				}
-			
+
 			}
-		} catch ( IOException | ServiceException e) {
+		} catch (IOException | ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-	return true;		
-		
+
+		return true;
 
 	}
 
@@ -308,7 +335,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	 */
 	private List<Date> getDaysOffSystalians() {
 		List<Date> retour = new ArrayList<Date>();
-		String tab2[] = { "2013-05-10", "2013-08-16", "2013-05-08"};
+		String tab2[] = { "2013-05-10", "2013-08-16", "2013-05-08" };
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		for (int i = 0; i < tab2.length; i++) {
 			try {
@@ -326,7 +353,8 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * @param endDateS
 	 * @return
 	 */
-	private List<String> listOfDays(String startDateS, String endDateS) {
+	private List<String> listOfDays(String startDateS, String endDateS,
+			URL urlOfAgenda) {
 		List<String> datesString = new ArrayList<String>();
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -334,14 +362,16 @@ public class CalendarServicesImp implements ICalendarServices {
 			Date dateFin = format.parse(endDateS);
 
 			if (dateDebut.before(dateFin)) {
-				addDateOfWorkUnderControl(dateDebut, format, datesString);
+				addDateOfWorkUnderControl(dateDebut, format, datesString,
+						urlOfAgenda);
 				while (dateDebut.before(dateFin)) {
 					dateDebut = new Date(dateDebut.getTime()
 							+ TimeUnit.DAYS.toMillis(1));
-					addDateOfWorkUnderControl(dateDebut, format, datesString);
+					addDateOfWorkUnderControl(dateDebut, format, datesString,
+							urlOfAgenda);
 					;
 				}
-				
+
 			}
 
 		} catch (ParseException e) {
@@ -355,17 +385,20 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * @param number
 	 * @return
 	 */
-	private List<String> listOfDaysNumber(String startDateS, int numberOfDays) {
+	private List<String> listOfDaysNumber(String startDateS, int numberOfDays,
+			URL urlOfAgenda) {
 		List<String> datesString = new ArrayList<String>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date dateDebut;
 		try {
 			dateDebut = format.parse(startDateS);
-			addDateOfWorkUnderControl(dateDebut, format, datesString);
+			addDateOfWorkUnderControl(dateDebut, format, datesString,
+					urlOfAgenda);
 			while (datesString.size() < numberOfDays) {
 				dateDebut = new Date(dateDebut.getTime()
 						+ TimeUnit.DAYS.toMillis(1));
-				addDateOfWorkUnderControl(dateDebut, format, datesString);
+				addDateOfWorkUnderControl(dateDebut, format, datesString,
+						urlOfAgenda);
 
 			}
 		} catch (ParseException e) {
@@ -375,13 +408,20 @@ public class CalendarServicesImp implements ICalendarServices {
 		return datesString;
 	}
 
+	private List<String> listOfDaysNumber(String startDateS, int numberOfDays,
+			int rate, URL urlOfAgenda) {
+
+		int result = (numberOfDays * 100 / rate);
+		return listOfDaysNumber(startDateS, result, urlOfAgenda);
+	}
+
 	/**
 	 * @param dateToAdd
 	 * @param format
 	 * @param destination
 	 */
 	private void addDateOfWorkUnderControl(Date dateToAdd,
-			SimpleDateFormat format, List<String> destination) {
+			SimpleDateFormat format, List<String> destination, URL urlOfAgenda) {
 
 		// jour férié
 		String dateToAddS = format.format(dateToAdd);
@@ -401,6 +441,15 @@ public class CalendarServicesImp implements ICalendarServices {
 			}
 		}
 
+		// jour occupé
+		List<Date> datesOccupees = this.getDaysWithKnowEvent(urlOfAgenda);
+		for (Date dateoccupe : datesOccupees) {
+			String dateoccupeS = format.format(dateoccupe);
+			if (dateoccupeS.equals(dateToAddS)) {
+				return;
+			}
+		}
+
 		GregorianCalendar cal = (GregorianCalendar) GregorianCalendar
 				.getInstance();
 		cal.setTime(dateToAdd);
@@ -416,17 +465,19 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * @param commentaries
 	 * @param date
 	 * @return
-	 * @throws EventCreationException 
+	 * @throws EventCreationException
 	 */
 	private CalendarEventEntry createEventEntryForDayWork(String eventTitle,
-			String commentaries, String date,URL urlofAgenda) throws EventCreationException {
-		
-		if (!isOkForInsert(urlofAgenda,eventTitle)) return null;
+			String commentaries, String date, URL urlofAgenda)
+			throws EventCreationException {
+
+		if (!isOkForInsert(urlofAgenda, eventTitle))
+			return null;
 
 		CalendarEventEntry myEntry = new CalendarEventEntry();
 		myEntry.setTitle(new PlainTextConstruct(eventTitle));
 		myEntry.setContent(new PlainTextConstruct(commentaries));
-		
+
 		DateTime startTime = DateTime.parseDateTime(date + "T09:00:00+01:00");
 		DateTime endTime = DateTime.parseDateTime(date + "T18:00:00+01:00");
 		// "2013-01-30T10:00:00-08:00"
@@ -463,6 +514,47 @@ public class CalendarServicesImp implements ICalendarServices {
 		}
 
 		return retour;
+
+	}
+
+	private List<Date> getDaysWithKnowEvent(URL urlOfAgenda) {
+		CalendarEventFeed resultFeed;
+		List<Date> retour = new ArrayList<Date>();
+
+		try {
+			resultFeed = service.getFeed(urlOfAgenda, CalendarEventFeed.class);
+			for (int i = 0; i < resultFeed.getEntries().size(); i++) {
+				CalendarEventEntry entry = resultFeed.getEntries().get(i);
+				retour.add(new Date(entry.getTimes().get(0).getStartTime()
+						.getValue()));
+
+			}
+		} catch (IOException | ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return retour;
+
+	}
+
+	private URL rechercherURL(String calendarTitle) {
+
+		URL postUrl = null;
+		List<CalendarEntry> listVerifiantTitle = searchCalendar(calendarTitle);
+		CalendarEventFeed batchRequest = new CalendarEventFeed();
+		for (CalendarEntry calendarEntry : listVerifiantTitle) {
+			try {
+				postUrl = new URL(calendarEntry.getLink(Link.Rel.ALTERNATE,
+						Link.Type.ATOM).getHref());
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		return postUrl;
 
 	}
 }

@@ -29,39 +29,39 @@ public class ICalendarServiceTest extends TestCase {
 
 	ICalendarServices service = new CalendarServicesImp();
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		System.setProperty("http.proxyHost", "gogoproxy.si.fr");
-		System.setProperty("http.proxyPort", "8080");
-		// Override system DNS setting with Google free DNS server
-		System.setProperty("sun.net.spi.nameservice.nameservers", "8.8.8.8");
-		System.setProperty("sun.net.spi.nameservice.provider.1", "dns,sun");
-
-		ProxySelector.setDefault(new ProxySelector() {
-
-			@Override
-			public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
-				throw new RuntimeException("Proxy connect failed", ioe);
+			protected void setUp() throws Exception {
+				super.setUp();
+				System.setProperty("http.proxyHost", "gogoproxy.si.fr");
+				System.setProperty("http.proxyPort", "8080");
+				// Override system DNS setting with Google free DNS server
+				System.setProperty("sun.net.spi.nameservice.nameservers", "8.8.8.8");
+				System.setProperty("sun.net.spi.nameservice.provider.1", "dns,sun");
+			
+				ProxySelector.setDefault(new ProxySelector() {
+			
+					@Override
+					public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
+						throw new RuntimeException("Proxy connect failed", ioe);
+					}
+			
+					@Override
+					public List select(URI uri) {
+						List retour = new ArrayList();
+						try {
+							// ip de gogo.si.fr gogo
+							retour = Arrays.asList(new Proxy(Proxy.Type.HTTP,
+									new InetSocketAddress(InetAddress
+											.getByName("gogo"), 8080)));
+						} catch (UnknownHostException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						return retour;
+					}
+				});
+			
+				service.init("bte.gogo@gmail.com", "gogo6", "testService");
 			}
-
-			@Override
-			public List select(URI uri) {
-				List retour = new ArrayList();
-				try {
-					// ip de gogo.si.fr gogo
-					retour = Arrays.asList(new Proxy(Proxy.Type.HTTP,
-							new InetSocketAddress(InetAddress
-									.getByName("gogo"), 8080)));
-				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return retour;
-			}
-		});
-
-		service.init("bte.gogo@gmail.com", "gogo6", "testService");
-	}
 
 	public void testDeleteCalendar() {
 		try {
@@ -119,24 +119,24 @@ public class ICalendarServiceTest extends TestCase {
 	public void testSemaine4() {
 
 		ajouteJoursDeTravail("Xavier", "Lanceur Excel pour ESIC",
-				"Lanceur Excel pour ESIC", "2013-01-21", 2);
+				"Lanceur Excel pour ESIC", "2013-01-21", 2,60);
 		ajouteJoursDeTravail("Nicolas", "Validation batch GPEC",
-				"Validation du batch GPEC pour MFE", "2013-01-21", 3);
+				"Validation du batch GPEC pour MFE", "2013-01-21", 3,60);
 		ajouteJoursDeTravail("Nicolas",
 				"Esimation charge - Validation batch DN pour BCN",
-				"Validation batch DN pour BCN", "2013-01-24", 2);
+				"Validation batch DN pour BCN", "2013-01-24", 2,60);
 		ajouteJoursDeTravail("Yohan",
 				"Spécification pour le batch portefeuille",
-				"Spécification pour le batch portefeuille", "2013-01-21", 5);
+				"Spécification pour le batch portefeuille", "2013-01-21", 5,60);
 
 	}
 
 	private void ajouteJoursDeTravail(String calendarTitle, String eventTitle,
-			String commentaries, String startDateS, int numberOfDays) {
+			String commentaries, String startDateS, int numberOfDays,int rate) {
 
 		try {
 			service.addDaysOfWorkNumber(calendarTitle, eventTitle,
-					commentaries, startDateS, numberOfDays);
+					commentaries, startDateS, numberOfDays,rate);
 		} catch (IOException | ServiceException | EventCreationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
