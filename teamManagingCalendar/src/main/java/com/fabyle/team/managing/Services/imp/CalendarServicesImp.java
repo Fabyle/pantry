@@ -230,6 +230,8 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
+	 * Batch l'ajout d'entrée dans le calendrier ( usage API google )
+	 * 
 	 * @param calendarTitle
 	 * @param eventTitle
 	 * @param commentaries
@@ -282,6 +284,8 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
+	 * Récupère les jours fériés en France d'après le google calendar "free days in France"
+	 * 
 	 * @return
 	 * @throws IOException
 	 * @throws ServiceException
@@ -331,7 +335,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
-	 * @return
+	 * @return la liste des jours fermés systalians
 	 */
 	private List<Date> getDaysOffSystalians() {
 		List<Date> retour = new ArrayList<Date>();
@@ -349,6 +353,12 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
+	 * Calcul une liste de string représentant les jours compris entre 2 dates. 
+	 * Tient compte de
+	 * - Des jours ayant déjà une tache ou de congés.( les jours de congés sont inscrits dans l'agenda )
+	 * - Des jours fériés
+	 * - Des jours off Systalians
+	 * 
 	 * @param startDateS
 	 * @param endDateS
 	 * @return
@@ -413,6 +423,9 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
+	 * Permet d'ajouter un jour dans une liste en controlant que ce jour n'est pas férié, off systalians, 
+	 * ou déjà occupé
+	 * 
 	 * @param dateToAdd
 	 * @param format
 	 * @param destination
@@ -458,6 +471,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
+	 * Création d'un évenement de calendrier
 	 * @param eventTitle
 	 * @param commentaries
 	 * @param date
@@ -488,7 +502,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
-	 * search all calendar which have for title <calendarTitle>
+	 * recherche un calendrier vérifiant un titre ( potentiellement plusieurs calendrier on le même titre )
 	 * 
 	 * @param calendarTitle
 	 * @return
@@ -515,6 +529,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
+	 * Recherche tous les évènements d'un calendrier
 	 * @param urlOfAgenda
 	 * @return
 	 */
@@ -540,6 +555,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
+	 * Recherche l'URL d'un calendrier
 	 * @param calendarTitle
 	 * @return
 	 */
