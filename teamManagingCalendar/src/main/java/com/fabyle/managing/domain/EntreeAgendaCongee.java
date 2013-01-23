@@ -1,8 +1,10 @@
 package com.fabyle.managing.domain;
 
-import java.util.Date;
 
 public class EntreeAgendaCongee extends EntreeAgenda {
+	
+	public static String CONGE ="Congé";
+	public static String PATTERN_CONGE =CONGE+".*";
 
 	public EntreeAgendaCongee(String proprietaire) {
 		super();
@@ -10,7 +12,7 @@ public class EntreeAgendaCongee extends EntreeAgenda {
 	}
 	
 	public String getTitle(){
-		return "Congé de "+proprietaire+" ( enregistrer le :"+new Date()+")";
+		return CONGE+" de "+proprietaire;
 	}
 
 }

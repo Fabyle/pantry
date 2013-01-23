@@ -118,8 +118,7 @@ public class CalendarServiceSemaine4 extends TestCase {
 	public void testAjouterConge() {
 		// attention au libellé identique pour les congés - il ne pourront pas
 		// etre inserer
-		service.addEntreeAgenda(new EntreeAgendaCongee(XRO), "2013-02-08", 3,
-				100);
+		service.addEntreeAgendaConge(new EntreeAgendaCongee(XRO), "2013-02-08", "2013-02-12");
 
 	}
 

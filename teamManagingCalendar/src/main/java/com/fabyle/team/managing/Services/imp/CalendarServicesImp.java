@@ -1,5 +1,7 @@
 package com.fabyle.team.managing.Services.imp;
 
+import static com.fabyle.managing.domain.EntreeAgendaCongee.PATTERN_CONGE;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fabyle.managing.domain.EntreeAgenda;
+import com.fabyle.managing.domain.EntreeAgendaCongee;
 import com.fabyle.team.Services.exception.EventCreationException;
 import com.fabyle.team.managing.Services.ICalendarServices;
 import com.google.gdata.client.calendar.CalendarService;
@@ -81,7 +84,7 @@ public class CalendarServicesImp implements ICalendarServices {
 		try {
 			service.setUserCredentials(userName, password);
 		} catch (AuthenticationException e) {
-			LOGGER.debug("Anomalie à l'initialisation du Service Calendar", e);
+			LOGGER.debug("Anomalie d'authentification à l'initialisation du Service Calendar", e);
 		}
 		try {
 			owncalendarsFeedUrl = new URL(METAFEED_URL_BASE + userName
@@ -98,8 +101,7 @@ public class CalendarServicesImp implements ICalendarServices {
 		try {
 			daysoff = this.getDaysOffInFrance();
 		} catch (IOException | ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("Problème lors de l'initialisation du service",e);
 		}
 	}
 
@@ -111,20 +113,24 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * .lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public CalendarEntry createCalendar(String Tittle, String summary,
+	public CalendarEntry createCalendar(String title, String summary,
 			String color) throws IOException, ServiceException {
 
 		// Create the calendar
 		CalendarEntry calendar = new CalendarEntry();
-		calendar.setTitle(new PlainTextConstruct(Tittle));
+		calendar.setTitle(new PlainTextConstruct(title));
 		calendar.setSummary(new PlainTextConstruct(summary));
 		calendar.setTimeZone(new TimeZoneProperty("Europe/Paris"));
 		calendar.setHidden(HiddenProperty.FALSE);
 		calendar.setColor(new ColorProperty(color));
 		calendar.addLocation(new Where("", "", "Paris"));
 
+		LOGGER.info("Création du calendrier :{}"+title);
+		
 		// Insert the calendar
 		return service.insert(owncalendarsFeedUrl, calendar);
+		
+		
 
 	}
 
@@ -198,12 +204,29 @@ public class CalendarServicesImp implements ICalendarServices {
 
 		URL postUrl = rechercherURL(calendarTitle);
 
-		List<String> list = this.listOfDaysNumber(startDateS, numberOfDays,
+		List<String> list = this.listOfDaysNumber(eventTitle,startDateS, numberOfDays,
 				postUrl);
 		addDaysOfWork(calendarTitle, eventTitle, commentaries, list.get(0),
 				list.get(list.size() - 1), postUrl);
 
 	}
+	
+	
+	@Override
+	public void addEntreeAgendaConge(EntreeAgendaCongee entre, String startDateS,
+			String endDateS) {
+		try {
+			this.addDaysOfWork(entre.getProprietaire(), entre.getTitle(),
+					entre.getCommentaires(), startDateS,  endDateS);
+		} catch (IOException | ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EventCreationException e) {
+			LOGGER.info("L'entrée [{}] sur l'agenda {} existe déjà.",entre.getTitle(),entre.getProprietaire());
+		}
+
+	}
+	
 
 	@Override
 	public void addEntreeAgenda(EntreeAgenda entre, String startDateS,
@@ -227,7 +250,7 @@ public class CalendarServicesImp implements ICalendarServices {
 
 		URL postUrl = rechercherURL(calendarTitle);
 
-		List<String> list = this.listOfDaysNumber(startDateS, numberOfDays,
+		List<String> list = this.listOfDaysNumber(eventTitle,startDateS, numberOfDays,
 				rate, postUrl);
 		addDaysOfWork(calendarTitle, eventTitle, commentaries, list.get(0),
 				list.get(list.size() - 1), postUrl);
@@ -264,7 +287,7 @@ public class CalendarServicesImp implements ICalendarServices {
 
 		CalendarEventFeed batchRequest = new CalendarEventFeed();
 
-		List<String> datesString = listOfDays(startDateS, endDateS, postUrl);
+		List<String> datesString = listOfDays(eventTitle,startDateS, endDateS, postUrl);
 
 		int jour = 0;
 
@@ -332,6 +355,10 @@ public class CalendarServicesImp implements ICalendarServices {
 	private boolean isOkForInsert(URL urlOfAgenda, String eventTitle)
 			throws EventCreationException {
 		CalendarEventFeed resultFeed;
+		
+		if (eventTitle.matches(PATTERN_CONGE)){
+			return true;
+		}
 
 		try {
 			resultFeed = service.getFeed(urlOfAgenda, CalendarEventFeed.class);
@@ -379,20 +406,20 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * @param endDateS
 	 * @return
 	 */
-	private List<String> listOfDays(String startDateS, String endDateS,
+	private List<String> listOfDays(String eventTitle,String startDateS, String endDateS,
 			URL urlOfAgenda) {
 		List<String> datesString = new ArrayList<String>();
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Date dateDebut = format.parse(startDateS);
 			Date dateFin = format.parse(endDateS);
-			addDateOfWorkUnderControl(dateDebut, format, datesString,
+			addDateOfWorkUnderControl(eventTitle, dateDebut, format, datesString,
 					urlOfAgenda);
 
 			while (dateDebut.before(dateFin)) {
 				dateDebut = new Date(dateDebut.getTime()
 						+ TimeUnit.DAYS.toMillis(1));
-				addDateOfWorkUnderControl(dateDebut, format, datesString,
+				addDateOfWorkUnderControl(eventTitle,dateDebut, format, datesString,
 						urlOfAgenda);
 				;
 			}
@@ -408,19 +435,19 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * @param number
 	 * @return
 	 */
-	private List<String> listOfDaysNumber(String startDateS, int numberOfDays,
+	private List<String> listOfDaysNumber(String eventTitle,String startDateS, int numberOfDays,
 			URL urlOfAgenda) {
 		List<String> datesString = new ArrayList<String>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date dateDebut;
 		try {
 			dateDebut = format.parse(startDateS);
-			addDateOfWorkUnderControl(dateDebut, format, datesString,
+			addDateOfWorkUnderControl(eventTitle,dateDebut, format, datesString,
 					urlOfAgenda);
 			while (datesString.size() < numberOfDays) {
 				dateDebut = new Date(dateDebut.getTime()
 						+ TimeUnit.DAYS.toMillis(1));
-				addDateOfWorkUnderControl(dateDebut, format, datesString,
+				addDateOfWorkUnderControl(eventTitle,dateDebut, format, datesString,
 						urlOfAgenda);
 
 			}
@@ -431,11 +458,11 @@ public class CalendarServicesImp implements ICalendarServices {
 		return datesString;
 	}
 
-	private List<String> listOfDaysNumber(String startDateS, int numberOfDays,
+	private List<String> listOfDaysNumber(String eventTitle,String startDateS, int numberOfDays,
 			int rate, URL urlOfAgenda) {
 
 		int result = (numberOfDays * 100 / rate);
-		return listOfDaysNumber(startDateS, result, urlOfAgenda);
+		return listOfDaysNumber(eventTitle, startDateS, result, urlOfAgenda);
 	}
 
 	/**
@@ -446,11 +473,26 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * @param format
 	 * @param destination
 	 */
-	private void addDateOfWorkUnderControl(Date dateToAdd,
+	private void addDateOfWorkUnderControl(String eventTitle, Date dateToAdd,
 			SimpleDateFormat format, List<String> destination, URL urlOfAgenda) {
+		
+		String dateToAddS = format.format(dateToAdd);
+		GregorianCalendar cal = (GregorianCalendar) GregorianCalendar
+				.getInstance();
+		cal.setTime(dateToAdd);
+		
+		// congé
+		if (eventTitle.matches(PATTERN_CONGE) ){
+			if (cal.get(Calendar.DAY_OF_WEEK) != GregorianCalendar.SUNDAY
+					&& cal.get(Calendar.DAY_OF_WEEK) != GregorianCalendar.SATURDAY){
+				destination.add(dateToAddS);
+			}
+						
+			return;
+		}
 
 		// jour férié
-		String dateToAddS = format.format(dateToAdd);
+		
 		for (Date dateferie : daysoff) {
 			String dateFerieS = format.format(dateferie);
 			if (dateFerieS.equals(dateToAddS)) {
@@ -476,9 +518,7 @@ public class CalendarServicesImp implements ICalendarServices {
 			}
 		}
 
-		GregorianCalendar cal = (GregorianCalendar) GregorianCalendar
-				.getInstance();
-		cal.setTime(dateToAdd);
+		
 
 		if (cal.get(Calendar.DAY_OF_WEEK) != GregorianCalendar.SUNDAY
 				&& cal.get(Calendar.DAY_OF_WEEK) != GregorianCalendar.SATURDAY) {
