@@ -246,7 +246,7 @@ public class CalendarServicesImp implements ICalendarServices {
 				CalendarEventEntry entry = resultFeed.getEntries().get(i);
 				System.out.println("----------------");
 				System.out.println(title + " " + entry.getTitle().getPlainText());
-				System.out.println( entry.getPlainTextContent());
+				System.out.println(serviceSerialisation.deSerialise(entry.getPlainTextContent()));
 				System.out.println("----------------");
 
 			}

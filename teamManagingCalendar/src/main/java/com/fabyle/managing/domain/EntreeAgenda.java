@@ -13,6 +13,7 @@ public class EntreeAgenda {
 	public String projet;
 	public String planification;
 	public String livrable;
+	public String commentaires;
 	
 	public EntreeAgenda() {
 		super();

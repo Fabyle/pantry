@@ -6,4 +6,6 @@ public interface ISerialisationServices {
 
 	public abstract String serialise(EntreeAgenda entree);
 
+	public abstract EntreeAgenda deSerialise(String xml);
+
 }

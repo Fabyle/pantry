@@ -10,12 +10,19 @@ public class SerialisationServicesImp implements ISerialisationServices {
 	@Override
 	public String serialise(EntreeAgenda entree) {
 
-		XStream xstream = new XStream(new StaxDriver()); // does not require
-															// XPP3 library
-															// starting with
-															// Java 6
+		XStream xstream = new XStream(new StaxDriver()); 							
 		String xml = xstream.toXML(entree);
 		return xml;
 	}
+	
+	@Override
+	public EntreeAgenda deSerialise(String xml){
+		
+		XStream xstream = new XStream(new StaxDriver()); 
+		EntreeAgenda entre = (EntreeAgenda) xstream.fromXML(xml);
+		return entre;
+		
+	}
+	
 
 }
