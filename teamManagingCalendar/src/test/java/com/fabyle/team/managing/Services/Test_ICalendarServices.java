@@ -39,7 +39,7 @@ import com.google.gdata.util.ServiceException;
  * @author fabien
  * 
  */
-public class ICalendarServiceTest extends TestCase {
+public class Test_ICalendarServices extends TestCase {
 
 	ICalendarServices service = new CalendarServicesImp();
 

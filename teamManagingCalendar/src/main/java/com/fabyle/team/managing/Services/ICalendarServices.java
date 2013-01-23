@@ -1,6 +1,7 @@
 package com.fabyle.team.managing.Services;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.fabyle.managing.domain.EntreeAgenda;
 import com.fabyle.managing.domain.EntreeAgendaCongee;
@@ -21,38 +22,6 @@ public interface ICalendarServices {
 	
 
 	/**
-	 * Creates a new secondary calendar using the owncalendars feed.
-	 * 
-	 * @param service
-	 *            An authenticated CalendarService object.
-	 * @return The newly created calendar entry.
-	 * @throws IOException
-	 *             If there is a problem communicating with the server.
-	 * @throws ServiceException
-	 *             If the service is unable to handle the request.
-	 */
-	public CalendarEntry createCalendar(String Tittle, String summary,
-			String color) throws IOException, ServiceException;
-	
-	/**
-	   * Deletes the given calendar entry.
-	   * 
-	   * @param calendar The calendar entry to delete.
-	   * @throws IOException If there is a problem communicating with the server.
-	   * @throws ServiceException If the service is unable to handle the request.
-	   */
-	public void deleteCalendar(String Tittle) throws IOException, ServiceException;
-	
-	/**
-	 * initialisation du service
-	 * @param userName
-	 * @param password
-	 * @param application
-	 */
-	public abstract void init(String userName, String password, String application);
-
-	
-	/**
 	 * ajoute un évenement dans un calendrier 
 	 * 
 	 * @param calendarTitle
@@ -64,7 +33,7 @@ public interface ICalendarServices {
 	 * @throws ServiceException
 	 */
 	public abstract void addAnEvent(String calendarTitle,String eventTitle,String commentaries,String startTimeS,String endTimeS) throws IOException, ServiceException;
-
+	
 	/**
 	 * Permet d'ajouter une période de travail en tenant compte des taches qui exitent déjà 
 	 * , des jours fériés, et des jours de congés connus
@@ -80,7 +49,7 @@ public interface ICalendarServices {
 	public abstract void addDaysOfWork(String calendarTitle, String eventTitle,
 			String commentaries, String startdateS, String endDateS) throws IOException,
 			ServiceException, EventCreationException;
-
+	
 	/**
 	 * Permet d'ajouter une période de travail en nombre de jours
 	 * Effectue les mêmes controles que l'API addDaysOfWork
@@ -97,6 +66,7 @@ public interface ICalendarServices {
 			String commentaries, String startDateS, int numberOfDays) throws IOException,
 			ServiceException, EventCreationException;
 
+	
 	/**
 	 * Permet d'ajouter une période de travail en nombre de jours
 	 * Effectue les mêmes controles que l'API addDaysOfWork avec l'application d'un taux
@@ -119,7 +89,41 @@ public interface ICalendarServices {
 			int numberOfDays, int rate);
 
 	public abstract void addEntreeAgendaConge(EntreeAgendaCongee entre, String startDateS,
-			String endDateS); 
+			String endDateS);
+
+	/**
+	 * Creates a new secondary calendar using the owncalendars feed.
+	 * 
+	 * @param service
+	 *            An authenticated CalendarService object.
+	 * @return The newly created calendar entry.
+	 * @throws IOException
+	 *             If there is a problem communicating with the server.
+	 * @throws ServiceException
+	 *             If the service is unable to handle the request.
+	 */
+	public CalendarEntry createCalendar(String Tittle, String summary,
+			String color) throws IOException, ServiceException;
+
+	/**
+	   * Deletes the given calendar entry.
+	   * 
+	   * @param calendar The calendar entry to delete.
+	   * @throws IOException If there is a problem communicating with the server.
+	   * @throws ServiceException If the service is unable to handle the request.
+	   */
+	public void deleteCalendar(String Title) throws IOException, ServiceException;
+	
+	
+	public void dumpCalendars(List<String> Titles) throws IOException, ServiceException;
+
+	/**
+	 * initialisation du service
+	 * @param userName
+	 * @param password
+	 * @param application
+	 */
+	public abstract void init(String userName, String password, String application); 
 
 	
 

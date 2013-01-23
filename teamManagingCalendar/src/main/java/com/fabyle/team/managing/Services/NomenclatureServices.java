@@ -45,5 +45,13 @@ public interface NomenclatureServices {
 	public static final String PLAN_3 = "2eme replanification";
 	public static final String PLAN_4 = "3eme replanification";
 	public static final String PLAN_5 = "4eme replanification";
+	
+	// LIVRABLE
+	public static final String DOC_SPEC = "Dossier de spécification";
+	public static final String DOC_CONCEPT = "Dossier de conception";
+	public static final String LOG_DOC_INST = "livrable logiciel et Dossier installation";
+	public static final String DOC_VALID = "Dossier de conception";
+	
+	
 
 }

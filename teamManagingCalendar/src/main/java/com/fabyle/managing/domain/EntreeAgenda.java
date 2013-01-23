@@ -6,14 +6,13 @@ import java.util.Date;
 public class EntreeAgenda {
 	
 	
-
 	public String proprietaire;
 	public String client; 
 	public String contribution;
 	public String typeProjet;
 	public String projet;
 	public String planification;
-	public String commentaires;
+	public String livrable;
 	
 	public EntreeAgenda() {
 		super();
@@ -23,15 +22,15 @@ public class EntreeAgenda {
 	// constructor
 	public EntreeAgenda(String proprietaire, String client,
 			String contribution, String typeProjet, String projet,
-			String planification, String commentaires) {
+			String planification, String livrable) {
 		super();
 		this.proprietaire = proprietaire;
 		this.client = client;
 		this.contribution = contribution;
 		this.typeProjet = typeProjet;
 		this.projet = projet;
-		this.planification = planification;
-		this.commentaires = commentaires;
+		this.planification = planification;		
+		this.livrable = livrable;
 	}
 	
 	
@@ -42,10 +41,7 @@ public class EntreeAgenda {
 	public String getCalendar(){
 		return proprietaire;		
 	}
-	
-	public String getCommentaires(){
-		return this.getTitle()+"\n"+commentaires+"\n"+(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-	}
+		
 	
 	public String getProprietaire() {
 		return proprietaire;

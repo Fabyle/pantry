@@ -19,6 +19,11 @@ import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_SPEC;
 import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_VALIDATION;
 import static com.fabyle.team.managing.Services.NomenclatureServices.XRO;
 import static com.fabyle.team.managing.Services.NomenclatureServices.YBA;
+import static com.fabyle.team.managing.Services.NomenclatureServices.DOC_SPEC;
+import static com.fabyle.team.managing.Services.NomenclatureServices.DOC_CONCEPT;
+import static com.fabyle.team.managing.Services.NomenclatureServices.LOG_DOC_INST;
+import static com.fabyle.team.managing.Services.NomenclatureServices.DOC_VALID;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,12 +44,13 @@ import junit.framework.TestCase;
 import com.fabyle.managing.domain.EntreeAgenda;
 import com.fabyle.managing.domain.EntreeAgendaCongee;
 import com.fabyle.team.managing.Services.imp.CalendarServicesImp;
+import com.google.gdata.util.ServiceException;
 
 /**
  * @author fabien
  * 
  */
-public class CalendarServiceSemaine4 extends TestCase {
+public class Test_ICalendarServices_Semaine4 extends TestCase {
 
 	ICalendarServices service = new CalendarServicesImp();
 
@@ -99,19 +105,19 @@ public class CalendarServiceSemaine4 extends TestCase {
 
 		service.addEntreeAgenda(new EntreeAgenda(XRO, CLIENT_REUNICA,
 				CONTRIBUTION_PALIER2, TYPE_CONC_DEV, P_LANCEUR, PLAN_1,
-				"Pas de commentaires"), "2013-01-21", 2, 60);
+				LOG_DOC_INST), "2013-01-21", 2, 60);
 		service.addEntreeAgenda(new EntreeAgenda(XRO, CLIENT_REUNICA,
 				CONTRIBUTION_PALIER2, TYPE_CONCEPT, P_EXPORT_PTF, PLAN_1,
-				"Pas de commentaires"), "2013-01-24", 4, 60);
+				DOC_CONCEPT), "2013-01-24", 4, 60);
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
 				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_GEC, PLAN_1,
-				"Pas de commentaires"), "2013-01-21", 3, 60);
+				DOC_VALID), "2013-01-21", 3, 60);
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
 				CONTRIBUTION_INTERSIS, TYPE_VALIDATION, P_VALID_BCN, PLAN_1,
-				"Pas de commentaires"), "2013-01-24", 2, 60);
+				DOC_VALID), "2013-01-24", 2, 60);
 		service.addEntreeAgenda(new EntreeAgenda(YBA, CLIENT_REUNICA,
 				CONTRIBUTION_PALIER2, TYPE_SPEC, P_EXPORT_PTF, PLAN_1,
-				"Pas de commentaires"), "2013-01-21", 5, 60);
+				DOC_SPEC), "2013-01-21", 5, 60);
 
 	}
 
@@ -125,45 +131,58 @@ public class CalendarServiceSemaine4 extends TestCase {
 	public void testAjouterTestMonteeEnCharge() {
 
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
+				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir1",
 				PLAN_1,
-				"réalisation de la documentation specification et conception"),
+				DOC_VALID),
 				"2013-01-31", 2, 60);
 
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
-				PLAN_1, "Planning des tirs de montée en charge. Tir 1"),
+				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir2",
+				PLAN_1, DOC_VALID),
 				"2013-02-21", 1, 100);
 
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
-				PLAN_1, "Planning des tirs de montée en charge. Tir 1"),
+				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir3",
+				PLAN_1, DOC_VALID),
 				"2013-02-21", 1, 100);
 
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
-				PLAN_1, "Planning des tirs de montée en charge. Tir 2"),
+				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir4",
+				PLAN_1, DOC_VALID),
 				"2013-02-25", 1, 100);
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
-				PLAN_1, "Planning des tirs de montée en charge. Tir 3"),
+				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir5",
+				PLAN_1, DOC_VALID),
 				"2013-02-21", 1, 100);
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
-				PLAN_1, "Planning des tirs de montée en charge. Tir 4"),
+				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir6",
+				PLAN_1, DOC_VALID),
 				"2013-02-28", 1, 100);
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
-				PLAN_1, "Planning des tirs de montée en charge. Tir 5"),
+				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir7",
+				PLAN_1, DOC_VALID),
 				"2013-03-04", 1, 100);
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
-				PLAN_1, "Planning des tirs de montée en charge. Tir 6"),
+				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir8",
+				PLAN_1, DOC_VALID),
 				"2013-03-07", 1, 100);
 		service.addEntreeAgenda(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
-				PLAN_1, "Planning des tirs de montée en charge. Tir 7"),
+				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir9",
+				PLAN_1, DOC_VALID),
 				"2013-03-11", 1, 100);
 	}
+	
+	public void testDumpCalendars() {
+		String[] tableau = { NMA, XRO, YBA };
+		try {
+			service.dumpCalendars(Arrays.asList(tableau));
+		} catch (IOException | ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	
 
 }
