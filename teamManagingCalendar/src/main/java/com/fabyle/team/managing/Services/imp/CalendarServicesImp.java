@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fabyle.managing.domain.EntreeAgenda;
 import com.fabyle.team.Services.exception.EventCreationException;
 import com.fabyle.team.managing.Services.ICalendarServices;
 import com.google.gdata.client.calendar.CalendarService;
@@ -205,6 +206,21 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	@Override
+	public void addEntreeAgenda(EntreeAgenda entre, String startDateS,
+			int numberOfDays, int rate) {
+		try {
+			this.addDaysOfWorkNumber(entre.getProprietaire(), entre.getTitle(),
+					entre.getCommentaires(), startDateS, numberOfDays, rate);
+		} catch (IOException | ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EventCreationException e) {
+			LOGGER.info("L'entrée [{}] sur l'agenda {} existe déjà.",entre.getTitle(),entre.getProprietaire());
+		}
+
+	}
+
+	@Override
 	public void addDaysOfWorkNumber(String calendarTitle, String eventTitle,
 			String commentaries, String startDateS, int numberOfDays, int rate)
 			throws IOException, ServiceException, EventCreationException {
@@ -255,8 +271,8 @@ public class CalendarServicesImp implements ICalendarServices {
 		for (String dateS : datesString) {
 			jour++;
 			CalendarEventEntry newEntry = this.createEventEntryForDayWork(
-					eventTitle + " (jour : " + jour + ")", commentaries + "\n"
-							+ new Date(), dateS, postUrl);
+					eventTitle + " (jour : " + jour + ")", commentaries, dateS,
+					postUrl);
 			BatchUtils.setBatchId(newEntry, String.valueOf(1));
 			BatchUtils.setBatchOperationType(newEntry,
 					BatchOperationType.INSERT);
@@ -284,7 +300,8 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
-	 * Récupère les jours fériés en France d'après le google calendar "free days in France"
+	 * Récupère les jours fériés en France d'après le google calendar
+	 * "free days in France"
 	 * 
 	 * @return
 	 * @throws IOException
@@ -353,11 +370,10 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
-	 * Calcul une liste de string représentant les jours compris entre 2 dates. 
-	 * Tient compte de
-	 * - Des jours ayant déjà une tache ou de congés.( les jours de congés sont inscrits dans l'agenda )
-	 * - Des jours fériés
-	 * - Des jours off Systalians
+	 * Calcul une liste de string représentant les jours compris entre 2 dates.
+	 * Tient compte de - Des jours ayant déjà une tache ou de congés.( les jours
+	 * de congés sont inscrits dans l'agenda ) - Des jours fériés - Des jours
+	 * off Systalians
 	 * 
 	 * @param startDateS
 	 * @param endDateS
@@ -423,8 +439,8 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
-	 * Permet d'ajouter un jour dans une liste en controlant que ce jour n'est pas férié, off systalians, 
-	 * ou déjà occupé
+	 * Permet d'ajouter un jour dans une liste en controlant que ce jour n'est
+	 * pas férié, off systalians, ou déjà occupé
 	 * 
 	 * @param dateToAdd
 	 * @param format
@@ -472,6 +488,7 @@ public class CalendarServicesImp implements ICalendarServices {
 
 	/**
 	 * Création d'un évenement de calendrier
+	 * 
 	 * @param eventTitle
 	 * @param commentaries
 	 * @param date
@@ -502,7 +519,8 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	/**
-	 * recherche un calendrier vérifiant un titre ( potentiellement plusieurs calendrier on le même titre )
+	 * recherche un calendrier vérifiant un titre ( potentiellement plusieurs
+	 * calendrier on le même titre )
 	 * 
 	 * @param calendarTitle
 	 * @return
@@ -530,6 +548,7 @@ public class CalendarServicesImp implements ICalendarServices {
 
 	/**
 	 * Recherche tous les évènements d'un calendrier
+	 * 
 	 * @param urlOfAgenda
 	 * @return
 	 */
@@ -556,6 +575,7 @@ public class CalendarServicesImp implements ICalendarServices {
 
 	/**
 	 * Recherche l'URL d'un calendrier
+	 * 
 	 * @param calendarTitle
 	 * @return
 	 */

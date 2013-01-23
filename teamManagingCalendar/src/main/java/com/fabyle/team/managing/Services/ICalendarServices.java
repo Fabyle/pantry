@@ -1,9 +1,8 @@
 package com.fabyle.team.managing.Services;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 
+import com.fabyle.managing.domain.EntreeAgenda;
 import com.fabyle.team.Services.exception.EventCreationException;
 import com.google.gdata.data.calendar.CalendarEntry;
 import com.google.gdata.util.ServiceException;
@@ -114,6 +113,9 @@ public interface ICalendarServices {
 	public abstract void addDaysOfWorkNumber(String calendarTitle, String eventTitle,
 			String commentaries, String startDateS, int numberOfDays, int rate)
 			throws IOException, ServiceException, EventCreationException;
+
+	public abstract void addEntreeAgenda(EntreeAgenda entre, String startDateS,
+			int numberOfDays, int rate); 
 
 	
 
