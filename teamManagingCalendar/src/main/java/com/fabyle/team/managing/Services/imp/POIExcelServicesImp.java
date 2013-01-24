@@ -4,10 +4,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +22,8 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+
+import com.fabyle.managing.domain.Planification;
 
 public class POIExcelServicesImp {
 
@@ -47,7 +51,7 @@ public class POIExcelServicesImp {
 
 	}
 
-	public void createGrilleJours(HSSFWorkbook workbook, String dateDebutS,
+	public HSSFSheet createGrilleJours(HSSFWorkbook workbook, String dateDebutS,
 			String dateFinS) {
 
 		SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy");
@@ -66,8 +70,8 @@ public class POIExcelServicesImp {
 			e.printStackTrace();
 		}
 
-		int column = 0;
-		int firstColumn = 0;
+		int column = 1;
+		int firstColumn = 1;
 
 		GregorianCalendar cal = (GregorianCalendar) GregorianCalendar
 				.getInstance();
@@ -124,8 +128,50 @@ public class POIExcelServicesImp {
 				firstColumn, // first column (0-based)
 				column - 1 // last column (0-based)
 				));
+		return worksheet;
 
 	}
+	
+	
+	public void addEntryfromGoogleCalendar(HSSFSheet worksheet,Map<String,List<Planification>> listPlan,String dateDebutS,
+			String dateFinS) {
+		
+		
+		SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatDateInList = new SimpleDateFormat("yyyy-MM-dd");
+		
+		HSSFRow row_Nicolas = worksheet.createRow((short) 2);
+		HSSFCell cellNicolas = row_Nicolas.createCell(0);
+		cellNicolas.setCellValue("Nicolas");
+		HSSFRow row_Xavier = worksheet.createRow((short) 3);
+		HSSFCell cellXavier = row_Xavier.createCell(0);
+		cellXavier.setCellValue("Xavier");		
+		HSSFRow row_Yohan = worksheet.createRow((short) 4);
+		HSSFCell cellYohan = row_Yohan.createCell(0);
+		cellYohan.setCellValue("Yohan");	
+		
+		Date dateDebut = null;
+		Date dateFin = null;
+
+		try {
+			dateDebut = formatDate.parse(dateDebutS);
+			dateFin = formatDate.parse(dateFinS);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		while (dateDebut.before(dateFin)) {
+			
+			String cle = formatDateInList.format(dateDebut);
+			List<Planification> liste = listPlan.get(cle);
+			for (Planification planification : liste) {
+				
+			}
+			
+		}
+	}
+	
 
 	/**
 	 * cell styles used for formatting calendar sheets

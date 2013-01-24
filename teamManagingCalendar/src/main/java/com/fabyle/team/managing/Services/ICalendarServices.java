@@ -2,9 +2,11 @@ package com.fabyle.team.managing.Services;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import com.fabyle.managing.domain.EntreeAgenda;
 import com.fabyle.managing.domain.EntreeAgendaCongee;
+import com.fabyle.managing.domain.Planification;
 import com.fabyle.team.Services.exception.EventCreationException;
 import com.google.gdata.data.calendar.CalendarEntry;
 import com.google.gdata.util.ServiceException;
@@ -115,7 +117,7 @@ public interface ICalendarServices {
 	public void deleteCalendar(String Title) throws IOException, ServiceException;
 	
 	
-	public void dumpCalendars(List<String> Titles) throws IOException, ServiceException;
+	public  Map<String,List<Planification>> dumpCalendars(List<String> Titles) throws IOException, ServiceException;
 
 	/**
 	 * initialisation du service

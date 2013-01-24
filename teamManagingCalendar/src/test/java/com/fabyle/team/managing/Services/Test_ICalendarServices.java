@@ -3,18 +3,6 @@
  */
 package com.fabyle.team.managing.Services;
 
-import static com.fabyle.team.managing.Services.NomenclatureServices.CLIENT_REUNICA;
-import static com.fabyle.team.managing.Services.NomenclatureServices.CONTRIBUTION_INTERSIS;
-import static com.fabyle.team.managing.Services.NomenclatureServices.CONTRIBUTION_PALIER2;
-import static com.fabyle.team.managing.Services.NomenclatureServices.P_VALID_BCN;
-import static com.fabyle.team.managing.Services.NomenclatureServices.P_LANCEUR;
-import static com.fabyle.team.managing.Services.NomenclatureServices.P_VALID_GEC;
-import static com.fabyle.team.managing.Services.NomenclatureServices.P_EXPORT_PTF;
-import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_CONC_DEV;
-import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_SPEC;
-import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_VALIDATION;
-import static com.fabyle.team.managing.Services.NomenclatureServices.P_VALID_EXPLOIT_P2;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -31,7 +19,6 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import com.fabyle.team.Services.exception.EventCreationException;
 import com.fabyle.team.managing.Services.imp.CalendarServicesImp;
 import com.google.gdata.util.ServiceException;
 
@@ -96,6 +83,7 @@ public class Test_ICalendarServices extends TestCase {
 			service.deleteCalendar("Xavier");
 			service.deleteCalendar("Nicolas");
 			service.deleteCalendar("Yohan");
+			service.deleteCalendar("Jonathan");
 		} catch (IOException | ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,6 +97,8 @@ public class Test_ICalendarServices extends TestCase {
 			service.createCalendar("Nicolas", "Calendrier de Nicolas",
 					ICalendarServices.RED);
 			service.createCalendar("Yohan", "Calendrier de Yohan",
+					ICalendarServices.BLUE);
+			service.createCalendar("Jonathan", "Calendrier de Jonathan",
 					ICalendarServices.BLUE);
 
 		} catch (IOException | ServiceException e) {

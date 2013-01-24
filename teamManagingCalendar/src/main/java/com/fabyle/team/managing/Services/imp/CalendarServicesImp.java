@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -19,12 +21,12 @@ import org.slf4j.LoggerFactory;
 
 import com.fabyle.managing.domain.EntreeAgenda;
 import com.fabyle.managing.domain.EntreeAgendaCongee;
+import com.fabyle.managing.domain.Planification;
 import com.fabyle.team.Services.exception.EventCreationException;
 import com.fabyle.team.managing.Services.ICalendarServices;
 import com.fabyle.team.managing.Services.ISerialisationServices;
 import com.google.gdata.client.calendar.CalendarService;
 import com.google.gdata.data.DateTime;
-import com.google.gdata.data.ITextConstruct;
 import com.google.gdata.data.Link;
 import com.google.gdata.data.PlainTextConstruct;
 import com.google.gdata.data.batch.BatchOperationType;
@@ -69,8 +71,8 @@ public class CalendarServicesImp implements ICalendarServices {
 	private static URL eventFeedUrl = null;
 
 	CalendarService service;
-	ISerialisationServices serviceSerialisation = new SerialisationServicesImp(); 
-	
+	ISerialisationServices serviceSerialisation = new SerialisationServicesImp();
+
 	private List<Date> daysoff;
 
 	/*
@@ -154,7 +156,8 @@ public class CalendarServicesImp implements ICalendarServices {
 			int numberOfDays, int rate) {
 		try {
 			this.addDaysOfWorkNumber(entre.getProprietaire(), entre.getTitle(),
-					serviceSerialisation.serialise(entre), startDateS, numberOfDays, rate);
+					serviceSerialisation.serialise(entre), startDateS,
+					numberOfDays, rate);
 		} catch (IOException | ServiceException e) {
 			LOGGER.error("Problème lors de l'ajout d'une entrée");
 		} catch (EventCreationException e) {
@@ -234,9 +237,12 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	@Override
-	public void dumpCalendars(List<String> titles) throws IOException,
+	public Map<String,List<Planification>> dumpCalendars(List<String> titles) throws IOException,
 			ServiceException {
 
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Map<String,List<Planification>> retour = new HashMap<String,List<Planification>>();
 		for (String title : titles) {
 			URL urlOfAgenda = rechercherURL(title);
 
@@ -244,14 +250,24 @@ public class CalendarServicesImp implements ICalendarServices {
 					CalendarEventFeed.class);
 			for (int i = 0; i < resultFeed.getEntries().size(); i++) {
 				CalendarEventEntry entry = resultFeed.getEntries().get(i);
-				System.out.println("----------------");
-				System.out.println(title + " " + entry.getTitle().getPlainText());
-				System.out.println(serviceSerialisation.deSerialise(entry.getPlainTextContent()));
-				System.out.println("----------------");
+				Date dateEntry = new Date(entry.getTimes().get(0)
+						.getStartTime().getValue());
+				
+				Planification nouveau = new Planification(dateEntry, new Date(entry.getTimes()
+						.get(0).getEndTime().getValue()),
+						serviceSerialisation.deSerialise(entry
+								.getPlainTextContent()));
+				if(!retour.containsKey(formatDate.format(dateEntry))){
+					retour.put(formatDate.format(dateEntry), new ArrayList<Planification>());
+
+				}
+				
+				retour.get(formatDate.format(dateEntry)).add(nouveau);
 
 			}
 
 		}
+		return retour;
 	}
 
 	/**
@@ -378,10 +394,12 @@ public class CalendarServicesImp implements ICalendarServices {
 			CalendarEventEntry newEntry = this.createEventEntryForDayWork(
 					eventTitle + " (jour : " + jour + ")", commentaries, dateS,
 					postUrl);
+			if ( newEntry != null ){
 			BatchUtils.setBatchId(newEntry, String.valueOf(1));
 			BatchUtils.setBatchOperationType(newEntry,
 					BatchOperationType.INSERT);
 			batchRequest.getEntries().add(newEntry);
+			}
 		}
 
 		// Get the URL to make batch requests to
@@ -524,8 +542,9 @@ public class CalendarServicesImp implements ICalendarServices {
 			resultFeed = service.getFeed(urlOfAgenda, CalendarEventFeed.class);
 			for (int i = 0; i < resultFeed.getEntries().size(); i++) {
 				CalendarEventEntry entry = resultFeed.getEntries().get(i);
+				
 				if (entry.getTitle().getPlainText().equals(eventTitle)) {
-					throw new EventCreationException();
+					return false;
 				}
 
 			}

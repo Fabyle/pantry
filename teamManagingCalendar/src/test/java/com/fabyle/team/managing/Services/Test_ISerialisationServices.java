@@ -18,7 +18,7 @@ public class Test_ISerialisationServices extends TestCase {
 		
 		ISerialisationServices service = new SerialisationServicesImp();
 		String xml = service.serialise(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				CONTRIBUTION_PALIER2, TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
+				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
 				PLAN_1, DOC_VALID));
 		
 		EntreeAgenda entre = service.deSerialise(xml);
