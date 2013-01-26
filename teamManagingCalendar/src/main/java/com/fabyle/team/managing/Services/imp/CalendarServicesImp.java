@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -22,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import com.fabyle.managing.domain.EntreeAgenda;
 import com.fabyle.managing.domain.EntreeAgendaCongee;
 import com.fabyle.managing.domain.Planification;
-import com.fabyle.team.Services.exception.EventCreationException;
 import com.fabyle.team.managing.Services.ICalendarServices;
 import com.fabyle.team.managing.Services.ISerialisationServices;
 import com.google.gdata.client.calendar.CalendarService;
@@ -74,95 +74,22 @@ public class CalendarServicesImp implements ICalendarServices {
 	ISerialisationServices serviceSerialisation = new SerialisationServicesImp();
 
 	private List<Date> daysoff;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.fabyle.team.managing.Services.ICalendarServices#addAnEvent(java.lang
-	 * .String, java.lang.String, java.lang.String, java.lang.String,
-	 * java.lang.String)
-	 */
-	@Override
-	public void addAnEvent(String calendarTitle, String eventTitle,
-			String commentaries, String startTimeS, String endTimeS)
-			throws IOException, ServiceException {
-
-		List<CalendarEntry> listVerifiantTitle = searchCalendar(calendarTitle);
-		for (CalendarEntry calendarEntry : listVerifiantTitle) {
-			URL postUrl = new URL(calendarEntry.getLink("alternate",
-					"application/atom+xml").getHref());
-			CalendarEventEntry myEntry = new CalendarEventEntry();
-			myEntry.setTitle(new PlainTextConstruct(eventTitle));
-			myEntry.setContent(new PlainTextConstruct(commentaries));
-
-			DateTime startTime = DateTime.parseDateTime(startTimeS);
-			DateTime endTime = DateTime.parseDateTime(endTimeS);
-			// "2013-01-30T10:00:00-08:00"
-
-			When eventTimes = new When();
-			eventTimes.setStartTime(startTime);
-			eventTimes.setEndTime(endTime);
-			myEntry.addTime(eventTimes);
-
-			// Send the request and receive the response:
-			CalendarEventEntry insertedEntry = service.insert(postUrl, myEntry);
-
-		}
-
-	}
+	private List<Date> datesOccupees;
 
 	@Override
-	public void addDaysOfWork(String calendarTitle, String eventTitle,
-			String commentaries, String startDateS, String endDateS)
-			throws IOException, ServiceException, EventCreationException {
-
-		URL postUrl = rechercherURL(calendarTitle);
-		addDaysOfWork(calendarTitle, eventTitle, commentaries, startDateS,
-				endDateS, postUrl);
-
-	}
-
-	@Override
-	public void addDaysOfWorkNumber(String calendarTitle, String eventTitle,
-			String commentaries, String startDateS, int numberOfDays)
-			throws IOException, ServiceException, EventCreationException {
-
-		URL postUrl = rechercherURL(calendarTitle);
-
-		List<String> list = this.listOfDaysNumber(eventTitle, startDateS,
-				numberOfDays, postUrl);
-		addDaysOfWork(calendarTitle, eventTitle, commentaries, list.get(0),
-				list.get(list.size() - 1), postUrl);
-
-	}
-
-	@Override
-	public void addDaysOfWorkNumber(String calendarTitle, String eventTitle,
-			String commentaries, String startDateS, int numberOfDays, int rate)
-			throws IOException, ServiceException, EventCreationException {
-
-		URL postUrl = rechercherURL(calendarTitle);
-
-		List<String> list = this.listOfDaysNumber(eventTitle, startDateS,
-				numberOfDays, rate, postUrl);
-		addDaysOfWork(calendarTitle, eventTitle, commentaries, list.get(0),
-				list.get(list.size() - 1), postUrl);
-
-	}
-
-	@Override
-	public void addEntreeAgenda(EntreeAgenda entre, String startDateS,
+	public void addEntreeAgendaTravail(EntreeAgenda entre, String startDateS,
 			int numberOfDays, int rate) {
 		try {
-			this.addDaysOfWorkNumber(entre.getProprietaire(), entre.getTitle(),
-					serviceSerialisation.serialise(entre), startDateS,
-					numberOfDays, rate);
+			reset();
+			URL postUrl = rechercherURL(entre.getProprietaire());
+
+			List<String> list = this.listOfDaysNumber(entre.getTitle(),
+					startDateS, numberOfDays, rate, postUrl);
+
+			batchEcriture(list, entre.getProprietaire(), entre.getTitle(),
+					entre.commentaires, postUrl);
 		} catch (IOException | ServiceException e) {
 			LOGGER.error("Problème lors de l'ajout d'une entrée");
-		} catch (EventCreationException e) {
-			LOGGER.info("L'entrée [{}] sur l'agenda {} existe déjà.",
-					entre.getTitle(), entre.getProprietaire());
 		}
 
 	}
@@ -171,14 +98,21 @@ public class CalendarServicesImp implements ICalendarServices {
 	public void addEntreeAgendaConge(EntreeAgendaCongee entre,
 			String startDateS, String endDateS) {
 		try {
-			this.addDaysOfWork(entre.getProprietaire(), entre.getTitle(),
-					serviceSerialisation.serialise(entre), startDateS, endDateS);
+			LOGGER.info("Ajout de jour de congé pour {}",
+					entre.getProprietaire());
+			reset();
+			URL postUrl = rechercherURL(entre.proprietaire);
+
+			// construit la liste des dates possibles
+			List<String> datesString = listOfDays(entre.getTitle(), startDateS,
+					endDateS, postUrl);
+
+			batchEcriture(datesString, entre.getProprietaire(),
+					entre.getTitle(), entre.commentaires, postUrl);
+
 		} catch (IOException | ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EventCreationException e) {
-			LOGGER.info("L'entrée [{}] sur l'agenda {} existe déjà.",
-					entre.getTitle(), entre.getProprietaire());
+			LOGGER.info("Erreur sur ajout de jour de congé pour {}",
+					entre.getProprietaire());
 		}
 
 	}
@@ -225,7 +159,7 @@ public class CalendarServicesImp implements ICalendarServices {
 		System.setProperty("http.proxyPort", "8080");
 
 		LOGGER.info("suppression des calendriers de titre {}", calendarTitle);
-		List<CalendarEntry> listVerifiantTitle = searchCalendar(calendarTitle);
+		List<CalendarEntry> listVerifiantTitle = rechercherCalendrier(calendarTitle);
 		for (CalendarEntry calendarEntry : listVerifiantTitle) {
 			try {
 				calendarEntry.delete();
@@ -237,12 +171,12 @@ public class CalendarServicesImp implements ICalendarServices {
 	}
 
 	@Override
-	public Map<String,List<Planification>> dumpCalendars(List<String> titles) throws IOException,
-			ServiceException {
+	public Map<String, List<Planification>> dumpCalendars(List<String> titles)
+			throws IOException, ServiceException {
 
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-		
-		Map<String,List<Planification>> retour = new HashMap<String,List<Planification>>();
+
+		Map<String, List<Planification>> retour = new HashMap<String, List<Planification>>();
 		for (String title : titles) {
 			URL urlOfAgenda = rechercherURL(title);
 
@@ -252,16 +186,17 @@ public class CalendarServicesImp implements ICalendarServices {
 				CalendarEventEntry entry = resultFeed.getEntries().get(i);
 				Date dateEntry = new Date(entry.getTimes().get(0)
 						.getStartTime().getValue());
-				
-				Planification nouveau = new Planification(dateEntry, new Date(entry.getTimes()
-						.get(0).getEndTime().getValue()),
+
+				Planification nouveau = new Planification(dateEntry, new Date(
+						entry.getTimes().get(0).getEndTime().getValue()),
 						serviceSerialisation.deSerialise(entry
 								.getPlainTextContent()));
-				if(!retour.containsKey(formatDate.format(dateEntry))){
-					retour.put(formatDate.format(dateEntry), new ArrayList<Planification>());
+				if (!retour.containsKey(formatDate.format(dateEntry))) {
+					retour.put(formatDate.format(dateEntry),
+							new ArrayList<Planification>());
 
 				}
-				
+
 				retour.get(formatDate.format(dateEntry)).add(nouveau);
 
 			}
@@ -351,7 +286,9 @@ public class CalendarServicesImp implements ICalendarServices {
 		}
 
 		// jour occupé
-		List<Date> datesOccupees = this.getDaysWithKnowEvent(urlOfAgenda);
+		if (datesOccupees == null) {
+			datesOccupees = this.initDaysWithKnowEvent(urlOfAgenda);
+		}
 		for (Date dateoccupe : datesOccupees) {
 			String dateoccupeS = format.format(dateoccupe);
 			if (dateoccupeS.equals(dateToAddS)) {
@@ -362,44 +299,52 @@ public class CalendarServicesImp implements ICalendarServices {
 		if (cal.get(Calendar.DAY_OF_WEEK) != GregorianCalendar.SUNDAY
 				&& cal.get(Calendar.DAY_OF_WEEK) != GregorianCalendar.SATURDAY) {
 			destination.add(dateToAddS);
+			datesOccupees.add(dateToAdd);
 		}
 	}
 
 	/**
-	 * Batch l'ajout d'entrée dans le calendrier ( usage API google )
-	 * 
+	 * @param datesString
 	 * @param calendarTitle
 	 * @param eventTitle
 	 * @param commentaries
-	 * @param startDateS
-	 * @param endDateS
 	 * @param postUrl
 	 * @throws IOException
 	 * @throws ServiceException
-	 * @throws EventCreationException
 	 */
-	private void addDaysOfWork(String calendarTitle, String eventTitle,
-			String commentaries, String startDateS, String endDateS, URL postUrl)
-			throws IOException, ServiceException, EventCreationException {
+	private void batchEcriture(List<String> datesString, String calendarTitle,
+			String eventTitle, String commentaries, URL postUrl)
+			throws IOException, ServiceException {
 
 		CalendarEventFeed batchRequest = new CalendarEventFeed();
-
-		List<String> datesString = listOfDays(eventTitle, startDateS, endDateS,
-				postUrl);
+		// assure l'unicité
+		Map<String, CalendarEventEntry> mapDesEntree = new HashMap<String, CalendarEventEntry>();
 
 		int jour = 0;
 
 		for (String dateS : datesString) {
 			jour++;
+			// control que l'entrée n'existe pas
+			String titre = eventTitle + " (jour : " + jour + ")";
 			CalendarEventEntry newEntry = this.createEventEntryForDayWork(
-					eventTitle + " (jour : " + jour + ")", commentaries, dateS,
-					postUrl);
-			if ( newEntry != null ){
+					titre, commentaries, dateS, postUrl);
+			if (newEntry != null) {
+				mapDesEntree.put(titre, newEntry);
+			}
+		}
+
+		if (mapDesEntree.values().isEmpty()) {
+			return;
+
+		}
+
+		// permet d'assurer l'unicité de titre.
+		Collection<CalendarEventEntry> listeEntree = mapDesEntree.values();
+		for (CalendarEventEntry newEntry : listeEntree) {
 			BatchUtils.setBatchId(newEntry, String.valueOf(1));
 			BatchUtils.setBatchOperationType(newEntry,
 					BatchOperationType.INSERT);
 			batchRequest.getEntries().add(newEntry);
-			}
 		}
 
 		// Get the URL to make batch requests to
@@ -416,6 +361,9 @@ public class CalendarServicesImp implements ICalendarServices {
 			if (!BatchUtils.isSuccess(entry)) {
 				BatchStatus status = BatchUtils.getBatchStatus(entry);
 				LOGGER.warn("Anomalie lors du déclenchement du batch ");
+			} else {
+				LOGGER.info("Enregistrement avec succes de {}", entry
+						.getTitle().getPlainText());
 			}
 
 		}
@@ -432,10 +380,9 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * @throws EventCreationException
 	 */
 	private CalendarEventEntry createEventEntryForDayWork(String eventTitle,
-			String commentaries, String date, URL urlofAgenda)
-			throws EventCreationException {
+			String commentaries, String date, URL urlofAgenda) {
 
-		if (!isOkForInsert(urlofAgenda, eventTitle))
+		if (existeDeja(urlofAgenda, eventTitle, date))
 			return null;
 
 		CalendarEventEntry myEntry = new CalendarEventEntry();
@@ -479,6 +426,8 @@ public class CalendarServicesImp implements ICalendarServices {
 			List<When> whens = entry.getTimes();
 
 			retour.add(new Date(whens.get(0).getStartTime().getValue()));
+			LOGGER.info("init des jours fériés : {}", entry.getTitle()
+					.getPlainText());
 
 		}
 		return retour;
@@ -508,7 +457,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * @param urlOfAgenda
 	 * @return
 	 */
-	private List<Date> getDaysWithKnowEvent(URL urlOfAgenda) {
+	private List<Date> initDaysWithKnowEvent(URL urlOfAgenda) {
 		CalendarEventFeed resultFeed;
 		List<Date> retour = new ArrayList<Date>();
 
@@ -530,30 +479,51 @@ public class CalendarServicesImp implements ICalendarServices {
 
 	}
 
-	private boolean isOkForInsert(URL urlOfAgenda, String eventTitle)
-			throws EventCreationException {
+	private boolean existeDeja(URL urlOfAgenda, String eventTitle,
+			String dateforEntry) {
 		CalendarEventFeed resultFeed;
 
-		if (eventTitle.matches(PATTERN_CONGE)) {
-			return true;
-		}
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 
 		try {
+
 			resultFeed = service.getFeed(urlOfAgenda, CalendarEventFeed.class);
+			LOGGER.info(
+					"Rappel URL avec max-results=500. Le retour contient {} éléments",
+					resultFeed.getEntries().size());
+
 			for (int i = 0; i < resultFeed.getEntries().size(); i++) {
 				CalendarEventEntry entry = resultFeed.getEntries().get(i);
-				
 				if (entry.getTitle().getPlainText().equals(eventTitle)) {
-					return false;
-				}
 
+					if (eventTitle.matches(PATTERN_CONGE)) {
+						Date dateEntry = new Date(entry.getTimes().get(0)
+								.getStartTime().getValue());
+						if (formatDate.format(dateEntry).equals(dateforEntry)) {
+							LOGGER.info(
+									"L'entrée {} en date du {} existe déjà",
+									eventTitle, dateforEntry);
+							return true;
+						} else {
+							LOGGER.info(
+									"L'entrée {} en date du {} n'existe pas",
+									eventTitle, dateforEntry);
+							return false;
+						}
+					} else {
+						LOGGER.info("L'entrée {} en date du {} existe déjà",
+								eventTitle, dateforEntry);
+						return true;
+					}
+
+				}
 			}
 		} catch (IOException | ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("Problème lors de l'analyse des entrées existantes");
 		}
-
-		return true;
+		LOGGER.info("L'entrée {} en date du {} n'existe pas", eventTitle,
+				dateforEntry);
+		return false;
 
 	}
 
@@ -635,12 +605,14 @@ public class CalendarServicesImp implements ICalendarServices {
 	private URL rechercherURL(String calendarTitle) {
 
 		URL postUrl = null;
-		List<CalendarEntry> listVerifiantTitle = searchCalendar(calendarTitle);
+		List<CalendarEntry> listVerifiantTitle = rechercherCalendrier(calendarTitle);
 
 		for (CalendarEntry calendarEntry : listVerifiantTitle) {
 			try {
 				postUrl = new URL(calendarEntry.getLink(Link.Rel.ALTERNATE,
-						Link.Type.ATOM).getHref());
+						Link.Type.ATOM).getHref()
+						+ "?max-results=500");
+
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -659,7 +631,7 @@ public class CalendarServicesImp implements ICalendarServices {
 	 * @param calendarTitle
 	 * @return
 	 */
-	private List<CalendarEntry> searchCalendar(String calendarTitle) {
+	private List<CalendarEntry> rechercherCalendrier(String calendarTitle) {
 
 		List<CalendarEntry> retour = new ArrayList<CalendarEntry>();
 		CalendarFeed resultFeed;
@@ -677,6 +649,12 @@ public class CalendarServicesImp implements ICalendarServices {
 		}
 
 		return retour;
+
+	}
+
+	@Override
+	public void reset() {
+		datesOccupees = null;
 
 	}
 }
