@@ -85,6 +85,9 @@ public class CalendarServicesImp implements ICalendarServices {
 
 			List<String> list = this.listOfDaysNumber(entre.getTitle(),
 					startDateS, numberOfDays, rate, postUrl);
+			
+			batchEcriture(list, entre.getProprietaire(), entre.getTitle(),
+					serviceSerialisation.serialise(entre), postUrl);
 
 			batchEcriture(list, entre.getProprietaire(), entre.getTitle(),
 					entre.dumpPrerequis(), postUrl);
@@ -108,7 +111,7 @@ public class CalendarServicesImp implements ICalendarServices {
 					endDateS, postUrl);
 
 			batchEcriture(datesString, entre.getProprietaire(),
-					entre.getTitle(), entre.commentaires, postUrl);
+					entre.getTitle(), serviceSerialisation.serialise(entre), postUrl);
 
 		} catch (IOException | ServiceException e) {
 			LOGGER.info("Erreur sur ajout de jour de congé pour {}",
@@ -325,7 +328,8 @@ public class CalendarServicesImp implements ICalendarServices {
 		for (String dateS : datesString) {
 			jour++;
 			// control que l'entrée n'existe pas
-			String titre = eventTitle + " (jour : " + jour + "/"+datesString.size()+")";
+			String titre = eventTitle + " (jour : " + jour + "/"
+					+ datesString.size() + ")";
 			CalendarEventEntry newEntry = this.createEventEntryForDayWork(
 					titre, commentaries, dateS, postUrl);
 			if (newEntry != null) {
@@ -656,5 +660,91 @@ public class CalendarServicesImp implements ICalendarServices {
 	public void reset() {
 		datesOccupees = null;
 
+	}
+
+	@Override
+	public void deleteEntreeAgendaConge(EntreeAgenda entre) {
+
+		try {
+
+			URL urlOfAgenda = this.rechercherURL(entre.getProprietaire());
+			CalendarEventFeed resultFeed = service.getFeed(urlOfAgenda,
+					CalendarEventFeed.class);
+			LOGGER.info(
+					"Rappel URL avec max-results=500. Le retour contient {} éléments",
+					resultFeed.getEntries().size());
+			List<CalendarEventEntry> list = new ArrayList<CalendarEventEntry>();
+
+			for (int i = 0; i < resultFeed.getEntries().size(); i++) {
+				CalendarEventEntry entry = resultFeed.getEntries().get(i);
+				
+				
+				if (entry.getTitle().getPlainText()
+						.contains(entre.getTitle())) {
+					list.add(entry);
+				}
+			}
+
+			batchDeleteEvents(list, urlOfAgenda);
+
+		} catch (IOException | ServiceException e) {
+			LOGGER.error("Problème lors de l'analyse des entrées existantes");
+		}
+
+	}
+
+	/**
+	 * Makes a batch request to delete all the events in the given list. If any
+	 * of the operations fails, the errors returned from the server are
+	 * displayed. The CalendarEntry objects in the list given as a parameters
+	 * must be entries returned from the server that contain valid edit links
+	 * (for optimistic concurrency to work). Note: You can add entries to a
+	 * batch request for the other operation types (INSERT, QUERY, and UPDATE)
+	 * in the same manner as shown below for DELETE operations.
+	 * 
+	 * @param service
+	 *            An authenticated CalendarService object.
+	 * @param eventsToDelete
+	 *            A list of CalendarEventEntry objects to delete.
+	 * @throws ServiceException
+	 *             If the service is unable to handle the request.
+	 * @throws IOException
+	 *             Error communicating with the server.
+	 */
+	private void batchDeleteEvents(List<CalendarEventEntry> eventsToDelete,
+			URL postUrl) throws ServiceException, IOException {
+
+		// Add each item in eventsToDelete to the batch request.
+		CalendarEventFeed batchRequest = new CalendarEventFeed();
+		for (int i = 0; i < eventsToDelete.size(); i++) {
+			CalendarEventEntry toDelete = eventsToDelete.get(i);
+			// Modify the entry toDelete with batch ID and operation type.
+			BatchUtils.setBatchId(toDelete, String.valueOf(i));
+			BatchUtils.setBatchOperationType(toDelete,
+					BatchOperationType.DELETE);
+			batchRequest.getEntries().add(toDelete);
+		}
+
+		// Get the URL to make batch requests to
+		CalendarEventFeed feed = service.getFeed(postUrl,
+				CalendarEventFeed.class);
+		Link batchLink = feed.getLink(Link.Rel.FEED_BATCH, Link.Type.ATOM);
+		URL batchUrl = new URL(batchLink.getHref());
+
+		// Submit the batch request
+		CalendarEventFeed batchResponse = service.batch(batchUrl, batchRequest);
+
+		// Ensure that all the operations were successful.
+		boolean isSuccess = true;
+		for (CalendarEventEntry entry : batchResponse.getEntries()) {
+			String batchId = BatchUtils.getBatchId(entry);
+			if (!BatchUtils.isSuccess(entry)) {
+				isSuccess = false;
+				BatchStatus status = BatchUtils.getBatchStatus(entry);
+				
+			}
+			LOGGER.info("Suppression de l'entrée {}",entry.getTitle().getPlainText());
+		}
+		
 	}
 }

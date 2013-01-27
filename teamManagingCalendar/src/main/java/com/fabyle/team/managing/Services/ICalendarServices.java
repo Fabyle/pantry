@@ -34,6 +34,9 @@ public interface ICalendarServices {
 
 	public abstract void addEntreeAgendaConge(EntreeAgendaCongee entre, String startDateS,
 			String endDateS);
+	
+	public abstract void deleteEntreeAgendaConge(EntreeAgenda entre);
+	
 
 	/**
 	 * Creates a new secondary calendar using the owncalendars feed.

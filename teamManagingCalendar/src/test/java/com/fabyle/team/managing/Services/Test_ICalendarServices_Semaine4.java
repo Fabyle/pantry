@@ -266,7 +266,7 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 				 TYPE_SPEC, P_EXPORT_MVO, PLAN_1,
 				DOC_SPEC);
 		
-		service.addEntreeAgendaTravail(entree1, "2013-01-21", 5, 60);
+		service.addEntreeAgendaTravail(entree1, "2013-01-21", 3, 70);
 		
 		EntreeAgenda entree2 = new EntreeAgenda(JGR, CLIENT_REUNICA,
 				 TYPE_CONCEPT, P_EXPORT_MVO, PLAN_1,
@@ -303,7 +303,7 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 				 TYPE_SPEC, P_EXPORT_PTF, PLAN_1,
 				DOC_SPEC);
 		
-		service.addEntreeAgendaTravail(entree1, "2013-01-21", 5, 70);
+		service.addEntreeAgendaTravail(entree1, "2013-01-21", 3, 70);
 		
 		EntreeAgenda entree2 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_CONCEPT, P_EXPORT_PTF, PLAN_1,
@@ -339,21 +339,21 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 				 TYPE_SPEC, P_SMOG_MULTI, PLAN_1,
 				DOC_SPEC);
 		
-		service.addEntreeAgendaTravail(entree1, "2013-02-01", 5, 100);
+		service.addEntreeAgendaTravail(entree1, "2013-01-31", 5, 100);
 		
 		EntreeAgenda entree2 = new EntreeAgenda(YBA, CLIENT_REUNICA,
 				 TYPE_CONCEPT, P_SMOG_MULTI, PLAN_1,
 				DOC_CONCEPT);
 		entree2.addPrerequis(entree1);
 		
-		service.addEntreeAgendaTravail(entree2, "2013-02-01", 5, 100);
+		service.addEntreeAgendaTravail(entree2, "2013-01-31", 5, 100);
 		
 		EntreeAgenda entree3 = new EntreeAgenda(YBA, CLIENT_REUNICA,
 				 TYPE_DEV, P_SMOG_MULTI, PLAN_1,
 				 LOG_DOC_INST);
 		entree3.addPrerequis(entree2);
 		
-		service.addEntreeAgendaTravail(entree3, "2013-02-01", 5, 100);
+		service.addEntreeAgendaTravail(entree3, "2013-01-31", 5, 100);
 		
 		EntreeAgenda entree4 = new EntreeAgenda(YBA, CLIENT_REUNICA,
 				 TYPE_VALIDATION, P_SMOG_MULTI, PLAN_1,
@@ -454,6 +454,21 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 				PLAN_1, DOC_VALID),
 				"2013-03-11", 1, 100);
 	}
+	
+//	public void testDelete(){
+//		EntreeAgenda entree1 = new EntreeAgenda(YBA, CLIENT_REUNICA,
+//				 TYPE_SPEC, P_EXPORT_PTF, PLAN_1,
+//				DOC_SPEC);
+//		
+//		EntreeAgenda entree2 = new EntreeAgenda(YBA, CLIENT_REUNICA,
+//				 TYPE_SPEC, P_EXPORT_MVO, PLAN_1,
+//				DOC_SPEC);
+//		
+//		service.deleteEntreeAgendaConge(entree1);
+//		service.deleteEntreeAgendaConge(entree2);
+//		
+//		
+//	}
 
 	
 
