@@ -1,7 +1,7 @@
 package com.fabyle.managing.domain;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntreeAgenda {
 	
@@ -13,7 +13,12 @@ public class EntreeAgenda {
 	public String planification;
 	public String livrable;
 	public String commentaires;
+	public List<EntreeAgenda> prerequis = new ArrayList<EntreeAgenda>();
 	
+	public List<EntreeAgenda> getPrerequis() {
+		return prerequis;
+	}
+
 	public EntreeAgenda() {
 		super();
 		
@@ -34,7 +39,7 @@ public class EntreeAgenda {
 	
 	
 	public String getTitle(){
-		return client+"/"+"/"+projet+"/"+typeProjet+"/"+planification;
+		return projet+"/"+typeProjet+"/"+planification;
 	}
 	
 	public String getCalendar(){
@@ -44,6 +49,23 @@ public class EntreeAgenda {
 	
 	public String getProprietaire() {
 		return proprietaire;
+	}
+	
+	public void addPrerequis(EntreeAgenda entree) {
+		this.prerequis.add(entree);
+	}
+	
+	public String dumpPrerequis(){
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("Pré-requis :\n");
+		
+		for (EntreeAgenda entree : prerequis) {
+			if (! entree.getProprietaire().equals(this.proprietaire)){
+			buffer.append("\t"+entree.getTitle()+" réalisé par "+entree.getProprietaire());
+			buffer.append("\n");			
+			}
+		}
+		return buffer.toString();
 	}
 	
 	

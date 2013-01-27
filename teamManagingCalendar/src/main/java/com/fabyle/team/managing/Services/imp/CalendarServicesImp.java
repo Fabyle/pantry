@@ -87,7 +87,7 @@ public class CalendarServicesImp implements ICalendarServices {
 					startDateS, numberOfDays, rate, postUrl);
 
 			batchEcriture(list, entre.getProprietaire(), entre.getTitle(),
-					entre.commentaires, postUrl);
+					entre.dumpPrerequis(), postUrl);
 		} catch (IOException | ServiceException e) {
 			LOGGER.error("Problème lors de l'ajout d'une entrée");
 		}
@@ -325,7 +325,7 @@ public class CalendarServicesImp implements ICalendarServices {
 		for (String dateS : datesString) {
 			jour++;
 			// control que l'entrée n'existe pas
-			String titre = eventTitle + " (jour : " + jour + ")";
+			String titre = eventTitle + " (jour : " + jour + "/"+datesString.size()+")";
 			CalendarEventEntry newEntry = this.createEventEntryForDayWork(
 					titre, commentaries, dateS, postUrl);
 			if (newEntry != null) {

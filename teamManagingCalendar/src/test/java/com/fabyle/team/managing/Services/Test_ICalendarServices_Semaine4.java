@@ -113,6 +113,30 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 	
 	public void testGeneral(){
 		
+		try {
+			service.deleteCalendar("Xavier");
+			service.deleteCalendar("Nicolas");
+			service.deleteCalendar("Yohan");
+			service.deleteCalendar("Jonathan");
+		} catch (IOException | ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			service.createCalendar("Xavier", "Calendrier de Xavier",
+					ICalendarServices.GREEN);
+			service.createCalendar("Nicolas", "Calendrier de Nicolas",
+					ICalendarServices.RED);
+			service.createCalendar("Yohan", "Calendrier de Yohan",
+					ICalendarServices.BLUE);
+			service.createCalendar("Jonathan", "Calendrier de Jonathan",
+					ICalendarServices.BLUE);
+
+		} catch (IOException | ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		A_ajouterConge();
 		B_validationBatchGEC_PLAN1();
@@ -135,21 +159,32 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 	 */
 	public void I_batchCRM_PLAN1() {
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(JGR, CLIENT_REUNICA,
+		EntreeAgenda entree1 = new EntreeAgenda(JGR, CLIENT_REUNICA,
 				 TYPE_SPEC, P_EXPORT_CRM, PLAN_1,
-				DOC_SPEC), "2013-02-18", 5, 100);
+				DOC_SPEC);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(JGR, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree1, "2013-02-18", 5, 100);
+		
+		EntreeAgenda entree2 = new EntreeAgenda(JGR, CLIENT_REUNICA,
 				 TYPE_CONCEPT, P_EXPORT_CRM, PLAN_1,
-				DOC_CONCEPT), "2013-02-18", 4, 100);
+				DOC_CONCEPT);
+		entree2.addPrerequis(entree1);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(JGR, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree2, "2013-02-18", 4, 100);
+		
+		EntreeAgenda entree3 = new EntreeAgenda(JGR, CLIENT_REUNICA,
 				 TYPE_DEV, P_EXPORT_CRM, PLAN_1,
-				 LOG_DOC_INST), "2013-02-18", 5, 100);
+				 LOG_DOC_INST);
+		entree3.addPrerequis(entree2);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(JGR, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree3, "2013-02-18", 5, 100);
+		
+		EntreeAgenda entree4 = new EntreeAgenda(JGR, CLIENT_REUNICA,
 				 TYPE_VALIDATION, P_EXPORT_CRM, PLAN_1,
-				 DOC_VALID), "2013-02-18", 5, 100);
+				 DOC_VALID);
+		entree4.addPrerequis(entree3);		
+		
+		service.addEntreeAgendaTravail(entree4, "2013-02-18", 5, 100);
 		
 	}
 	
@@ -159,21 +194,34 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 	 */
 	public void K_Provision_LINK() {
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
+		EntreeAgenda entree1 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_SPEC, P_LINK_LANCEUR_GRAPHIQUE, PLAN_1,
-				DOC_SPEC), "2013-03-01", 5, 80);
+				DOC_SPEC);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree1, "2013-03-01", 5, 80);
+		
+		EntreeAgenda entree2 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_CONCEPT, P_LINK_LANCEUR_GRAPHIQUE, PLAN_1,
-				DOC_CONCEPT), "2013-03-01", 4, 80);
+				DOC_CONCEPT);
+		entree2.addPrerequis(entree1);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree2, "2013-03-01", 4, 80);
+		
+		EntreeAgenda entree3 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_DEV, P_LINK_LANCEUR_GRAPHIQUE, PLAN_1,
-				 LOG_DOC_INST), "2013-03-01", 5, 80);
+				 LOG_DOC_INST);
+		entree3.addPrerequis(entree2);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree3, "2013-03-01", 5, 80);
+		
+		EntreeAgenda entree4 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_VALIDATION, P_LINK_LANCEUR_GRAPHIQUE, PLAN_1,
-				 DOC_VALID), "2013-03-01", 5, 80);
+				 DOC_VALID);
+		entree4.addPrerequis(entree3);		
+		
+		service.addEntreeAgendaTravail(entree4, "2013-03-01", 5, 80);
+		
+		
 		
 	}
 	
@@ -183,17 +231,27 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 	 */
 	public void J_FrameWork_webMethod() {
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
+		EntreeAgenda entree1 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_SPEC, P_WM_FRAME, PLAN_1,
-				 DOC_CONCEPT), "2013-04-01", 5, 80);
-				
-		service.addEntreeAgendaTravail(new EntreeAgenda(JGR, CLIENT_REUNICA,
-				 TYPE_DEV, P_WM_FRAME, PLAN_1,
-				 LOG_DOC_INST), "2013-04-01", 5, 80);
+				 DOC_CONCEPT);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(JGR, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree1, "2013-04-01", 5, 80);
+		
+		EntreeAgenda entree2 = new EntreeAgenda(JGR, CLIENT_REUNICA,
+				 TYPE_DEV, P_WM_FRAME, PLAN_1,
+				 LOG_DOC_INST);
+		entree2.addPrerequis(entree1);
+		
+		service.addEntreeAgendaTravail(entree2, "2013-04-01", 5, 80);
+		
+		EntreeAgenda entree3 = new EntreeAgenda(JGR, CLIENT_REUNICA,
 				 TYPE_VALIDATION, P_WM_FRAME, PLAN_1,
-				 DOC_VALID), "2013-04-01", 5, 80);
+				 DOC_VALID);
+		entree3.addPrerequis(entree2);
+		
+		service.addEntreeAgendaTravail(entree3, "2013-04-01", 5, 80);
+		
+		
 		
 	}
 	
@@ -204,22 +262,34 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 	 */
 	public void E_batchMouvementORG_PLAN1() {
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(YBA, CLIENT_REUNICA,
+		EntreeAgenda entree1 = new EntreeAgenda(YBA, CLIENT_REUNICA,
 				 TYPE_SPEC, P_EXPORT_MVO, PLAN_1,
-				DOC_SPEC), "2013-01-21", 5, 60);
+				DOC_SPEC);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(JGR, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree1, "2013-01-21", 5, 60);
+		
+		EntreeAgenda entree2 = new EntreeAgenda(JGR, CLIENT_REUNICA,
 				 TYPE_CONCEPT, P_EXPORT_MVO, PLAN_1,
-				DOC_CONCEPT), "2013-03-04", 4, 100);
+				DOC_CONCEPT);
+		entree2.addPrerequis(entree1);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(JGR, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree2, "2013-03-04", 4, 100);
+		
+		EntreeAgenda entree3 = new EntreeAgenda(JGR, CLIENT_REUNICA,
 				 TYPE_DEV, P_EXPORT_MVO, PLAN_1,
-				 LOG_DOC_INST), "2013-03-04", 5, 100);
+				 LOG_DOC_INST);
+		entree3.addPrerequis(entree2);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(JGR, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree3, "2013-03-04", 5, 100);
+		
+		EntreeAgenda entree4 = new EntreeAgenda(JGR, CLIENT_REUNICA,
 				 TYPE_VALIDATION, P_EXPORT_MVO, PLAN_1,
-				 DOC_VALID), "2013-03-04", 5, 100);
+				 DOC_VALID);
+		entree4.addPrerequis(entree3);		
 		
+		service.addEntreeAgendaTravail(entree4, "2013-03-04", 5, 100);
+		
+				
 	}
 	
 	
@@ -229,21 +299,34 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 	 */
 	public void D_batchMouvementPTF_PLAN1() {
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(YBA, CLIENT_REUNICA,
+		EntreeAgenda entree1 = new EntreeAgenda(YBA, CLIENT_REUNICA,
 				 TYPE_SPEC, P_EXPORT_PTF, PLAN_1,
-				DOC_SPEC), "2013-01-21", 5, 70);
+				DOC_SPEC);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree1, "2013-01-21", 5, 70);
+		
+		EntreeAgenda entree2 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_CONCEPT, P_EXPORT_PTF, PLAN_1,
-				DOC_CONCEPT), "2013-01-24", 4, 70);
+				DOC_CONCEPT);
+		entree2.addPrerequis(entree1);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree2, "2013-01-24", 4, 70);
+		
+		EntreeAgenda entree3 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_DEV, P_EXPORT_PTF, PLAN_1,
-				 LOG_DOC_INST), "2013-01-24", 5, 70);
+				 LOG_DOC_INST);
+		entree3.addPrerequis(entree2);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree3, "2013-01-24", 5, 70);
+		
+		EntreeAgenda entree4 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_VALIDATION, P_EXPORT_PTF, PLAN_1,
-				 DOC_VALID), "2013-01-24", 1, 70);
+				 DOC_VALID);
+		entree4.addPrerequis(entree3);	
+		
+		service.addEntreeAgendaTravail(entree4, "2013-01-24", 1, 70);
+		
+		
 		
 	}
 	
@@ -252,21 +335,34 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 	 */	
 	public void F_smog_multi_BCB() {
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(YBA, CLIENT_REUNICA,
+		EntreeAgenda entree1 = new EntreeAgenda(YBA, CLIENT_REUNICA,
 				 TYPE_SPEC, P_SMOG_MULTI, PLAN_1,
-				DOC_SPEC), "2013-02-01", 5, 100);
+				DOC_SPEC);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(YBA, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree1, "2013-02-01", 5, 100);
+		
+		EntreeAgenda entree2 = new EntreeAgenda(YBA, CLIENT_REUNICA,
 				 TYPE_CONCEPT, P_SMOG_MULTI, PLAN_1,
-				DOC_CONCEPT), "2013-02-01", 5, 100);
+				DOC_CONCEPT);
+		entree2.addPrerequis(entree1);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(YBA, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree2, "2013-02-01", 5, 100);
+		
+		EntreeAgenda entree3 = new EntreeAgenda(YBA, CLIENT_REUNICA,
 				 TYPE_DEV, P_SMOG_MULTI, PLAN_1,
-				 LOG_DOC_INST), "2013-02-01", 5, 100);
+				 LOG_DOC_INST);
+		entree3.addPrerequis(entree2);
 		
-		service.addEntreeAgendaTravail(new EntreeAgenda(YBA, CLIENT_REUNICA,
+		service.addEntreeAgendaTravail(entree3, "2013-02-01", 5, 100);
+		
+		EntreeAgenda entree4 = new EntreeAgenda(YBA, CLIENT_REUNICA,
 				 TYPE_VALIDATION, P_SMOG_MULTI, PLAN_1,
-				 DOC_VALID), "2013-02-01", 5, 100);
+				 DOC_VALID);
+		entree4.addPrerequis(entree3);	
+		
+		service.addEntreeAgendaTravail(entree4, "2013-02-01", 5, 100);
+	
+	
 		
 	}
 	
@@ -358,33 +454,7 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 				PLAN_1, DOC_VALID),
 				"2013-03-11", 1, 100);
 	}
-	
-	/**
-	 * ----------
-	 */	
-//	public void testDumpCalendars() {
-//		String[] tableau = { NMA, XRO, YBA };
-//		try {
-//			Map<String,List<Planification>> list = service.dumpCalendars(Arrays.asList(tableau));
-//			
-//		} catch (IOException | ServiceException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}
-	
-	public void testDouble(){
-		
-		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
-				 TYPE_CONCEPT, P_EXPORT_PTF, PLAN_1,
-				DOC_CONCEPT), "2013-01-24", 2, 100);
-		
-		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
-				 TYPE_CONCEPT, P_EXPORT_PTF, PLAN_1,
-				DOC_CONCEPT), "2013-01-24", 2, 100);
-		
-	}
+
 	
 
 }
