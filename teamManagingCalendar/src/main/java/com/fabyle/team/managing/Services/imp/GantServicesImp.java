@@ -112,7 +112,8 @@ public class GantServicesImp {
 			 * Of Picture Fourth Parameter: Width Of Picture
 			 */
 			ChartUtilities.saveChartAsJPEG(new File(
-					"C:/temp/myGantChartDemo.jpg"), chart, 1920, 1080);
+					"C:/temp/Planning projets BTE ("+new SimpleDateFormat("dd-MM-yyyy")
+										.format(new Date())+").jpg"), chart, 1680, 1050);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.err.println("Problem occurred creating chart.");

@@ -4,14 +4,13 @@
 package com.fabyle.team.managing.Services;
 
 import static com.fabyle.team.managing.Services.NomenclatureServices.CLIENT_REUNICA;
-import static com.fabyle.team.managing.Services.NomenclatureServices.CONTRIBUTION_INTERSIS;
-import static com.fabyle.team.managing.Services.NomenclatureServices.CONTRIBUTION_PALIER2;
 import static com.fabyle.team.managing.Services.NomenclatureServices.DOC_CONCEPT;
 import static com.fabyle.team.managing.Services.NomenclatureServices.DOC_SPEC;
 import static com.fabyle.team.managing.Services.NomenclatureServices.DOC_VALID;
 import static com.fabyle.team.managing.Services.NomenclatureServices.JGR;
 import static com.fabyle.team.managing.Services.NomenclatureServices.LOG_DOC_INST;
 import static com.fabyle.team.managing.Services.NomenclatureServices.NMA;
+import static com.fabyle.team.managing.Services.NomenclatureServices.NMA2;
 import static com.fabyle.team.managing.Services.NomenclatureServices.PLAN_1;
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_ESIC_LANCEUR;
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_EXPORT_CRM;
@@ -43,14 +42,12 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import junit.framework.TestCase;
 
 import com.fabyle.managing.domain.EntreeAgenda;
 import com.fabyle.managing.domain.EntreeAgendaCongee;
-import com.fabyle.managing.domain.Planification;
 import com.fabyle.team.managing.Services.imp.CalendarServicesImp;
 import com.google.gdata.util.ServiceException;
 
@@ -77,35 +74,35 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 		catch (IOException e) {
 		 // Handle exception here
 		}
-//		
-//		System.setProperty("http.proxyHost", props.getProperty("proxy.url"));
-//		System.setProperty("http.proxyPort", props.getProperty("proxy.port"));
-//		// Override system DNS setting with Google free DNS server
-//		System.setProperty("sun.net.spi.nameservice.nameservers", "8.8.8.8");
-//		System.setProperty("sun.net.spi.nameservice.provider.1", "dns,sun");
-//
-//		ProxySelector.setDefault(new ProxySelector() {
-//
-//			@Override
-//			public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
-//				throw new RuntimeException("Proxy connect failed", ioe);
-//			}
-//
-//			@Override
-//			public List select(URI uri) {
-//				List retour = new ArrayList();
-//				try {
-//					// ip de du proxy
-//					retour = Arrays.asList(new Proxy(Proxy.Type.HTTP,
-//							new InetSocketAddress(InetAddress
-//									.getByName(props.getProperty("proxy.ip")), 8080)));
-//				} catch (UnknownHostException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				return retour;
-//			}
-//		});
+		
+		System.setProperty("http.proxyHost", props.getProperty("proxy.url"));
+		System.setProperty("http.proxyPort", props.getProperty("proxy.port"));
+		// Override system DNS setting with Google free DNS server
+		System.setProperty("sun.net.spi.nameservice.nameservers", "8.8.8.8");
+		System.setProperty("sun.net.spi.nameservice.provider.1", "dns,sun");
+
+		ProxySelector.setDefault(new ProxySelector() {
+
+			@Override
+			public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
+				throw new RuntimeException("Proxy connect failed", ioe);
+			}
+
+			@Override
+			public List select(URI uri) {
+				List retour = new ArrayList();
+				try {
+					// ip de du proxy
+					retour = Arrays.asList(new Proxy(Proxy.Type.HTTP,
+							new InetSocketAddress(InetAddress
+									.getByName(props.getProperty("proxy.ip")), 8080)));
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return retour;
+			}
+		});
 
 		service.init(props.getProperty("google.login"), props.getProperty("google.password"), "testService");
 	}
@@ -114,10 +111,11 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 	public void testGeneral(){
 		
 		try {
-			service.deleteCalendar("Xavier");
-			service.deleteCalendar("Nicolas");
-			service.deleteCalendar("Yohan");
+			service.deleteCalendar(XRO);
+			service.deleteCalendar(NMA);
+			service.deleteCalendar(YBA);
 			service.deleteCalendar("Jonathan");
+			service.deleteCalendar(NMA2);
 		} catch (IOException | ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,6 +130,9 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 					ICalendarServices.BLUE);
 			service.createCalendar("Jonathan", "Calendrier de Jonathan",
 					ICalendarServices.BLUE);
+			service.createCalendar(NMA2, "Calendrier de Nicolas pour la montée en charge",
+					ICalendarServices.RED);
+
 
 		} catch (IOException | ServiceException e) {
 			// TODO Auto-generated catch block
@@ -412,48 +413,54 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 	 * ----------
 	 */
 	public void G_ajouterTestMonteeEnCharge_Plan1() {
-
-		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir1",
+		
+		service.addEntreeAgendaTravail(new EntreeAgenda(NMA2, CLIENT_REUNICA,
+				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2,
 				PLAN_1,
 				DOC_VALID),
-				"2013-01-31", 2, 60);
+				"2013-01-31", 30, 100);
 
-		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir2",
-				PLAN_1, DOC_VALID),
-				"2013-02-21", 1, 100);
-
-		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir3",
-				PLAN_1, DOC_VALID),
-				"2013-02-21", 1, 100);
-
-		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir4",
-				PLAN_1, DOC_VALID),
-				"2013-02-25", 1, 100);
-		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir5",
-				PLAN_1, DOC_VALID),
-				"2013-02-21", 1, 100);
-		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir6",
-				PLAN_1, DOC_VALID),
-				"2013-02-28", 1, 100);
-		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir7",
-				PLAN_1, DOC_VALID),
-				"2013-03-04", 1, 100);
-		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir8",
-				PLAN_1, DOC_VALID),
-				"2013-03-07", 1, 100);
-		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
-				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir9",
-				PLAN_1, DOC_VALID),
-				"2013-03-11", 1, 100);
-	}
+//		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
+//				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir1",
+//				PLAN_1,
+//				DOC_VALID),
+//				"2013-01-31", 2, 60);
+//
+//		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
+//				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir2",
+//				PLAN_1, DOC_VALID),
+//				"2013-02-21", 1, 100);
+//
+//		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
+//				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir3",
+//				PLAN_1, DOC_VALID),
+//				"2013-02-21", 1, 100);
+//
+//		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
+//				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir4",
+//				PLAN_1, DOC_VALID),
+//				"2013-02-25", 1, 100);
+//		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
+//				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir5",
+//				PLAN_1, DOC_VALID),
+//				"2013-02-21", 1, 100);
+//		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
+//				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir6",
+//				PLAN_1, DOC_VALID),
+//				"2013-02-28", 1, 100);
+//		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
+//				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir7",
+//				PLAN_1, DOC_VALID),
+//				"2013-03-04", 1, 100);
+//		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
+//				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir8",
+//				PLAN_1, DOC_VALID),
+//				"2013-03-07", 1, 100);
+//		service.addEntreeAgendaTravail(new EntreeAgenda(NMA, CLIENT_REUNICA,
+//				 TYPE_VALIDATION, P_VALID_EXPLOIT_P2+" tir9",
+//				PLAN_1, DOC_VALID),
+//				"2013-03-11", 1, 100);
+//	}
 	
 //	public void testDelete(){
 //		EntreeAgenda entree1 = new EntreeAgenda(YBA, CLIENT_REUNICA,
@@ -468,7 +475,7 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 //		service.deleteEntreeAgendaConge(entree2);
 //		
 //		
-//	}
+	}
 
 	
 

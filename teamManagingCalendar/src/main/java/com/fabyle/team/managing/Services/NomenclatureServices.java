@@ -6,6 +6,7 @@ public interface NomenclatureServices {
 	// PROPRIETAIRE
 	public static final String XRO = "Xavier";
 	public static final String NMA = "Nicolas";
+	public static final String NMA2 = "Nicolas-Montée en charge";
 	public static final String YBA = "Yohan";
 	public static final String JGR = "Jonathan";
 	
