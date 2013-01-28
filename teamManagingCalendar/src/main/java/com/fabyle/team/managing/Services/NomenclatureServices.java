@@ -57,6 +57,8 @@ public interface NomenclatureServices {
 	// suivi de VGS - pré-requis il faut un acces à EPV. NMA
 	public static final String P_VALID_VGS_P2 = CONTRIBUTION_PALIER2+"Suivi exploitation VGS";
 	public static final String P_VALID_EXTRACT = CONTRIBUTION_INTERSIS+"Validation des extracteurs UR";
+	public static final String P_SYNCHRO_CTX = CONTRIBUTION_2UR+" Prise en compte impacts 2UR synchro. de contextes";
+
 
 	// PLANIFICATION
 	public static final String PLAN_1 = "Planification 1";
