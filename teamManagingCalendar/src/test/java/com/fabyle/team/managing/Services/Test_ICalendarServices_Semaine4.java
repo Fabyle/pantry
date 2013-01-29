@@ -151,7 +151,7 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 		H_validationBatchBCN_PLAN1();
 		I_batchCRM_PLAN1();
 		J_FrameWork_webMethod();
-		K_Provision_LINK();
+		//K_Provision_LINK();
 		
 	}
 	
