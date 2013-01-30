@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,6 +30,7 @@ import com.google.gdata.util.ServiceException;
 
 public class GantServicesImp {
 
+	@SuppressWarnings("unchecked")
 	public void constructGantt(ICalendarServices calendrierService,
 			List<String> TitlesOfCalendar) {
 
@@ -92,6 +94,17 @@ public class GantServicesImp {
 			proprio.get(gantEntry.getProprietaire()).add(
 					new Task(gantEntry.getTache(), new SimpleTimePeriod(
 							gantEntry.getDateDebut(), gantEntry.getDateFin())));
+			
+			// tri des taches par très optimiser oups !
+			List<Task> listTache = new ArrayList<Task>(proprio.get(gantEntry.getProprietaire()).getTasks());
+			Collections.sort(listTache, new ComparateurTask());
+			proprio.get(gantEntry.getProprietaire()).removeAll();
+			for (Task task : listTache) {
+				proprio.get(gantEntry.getProprietaire()).add(task);
+			}
+			
+			
+			
 
 		}
 

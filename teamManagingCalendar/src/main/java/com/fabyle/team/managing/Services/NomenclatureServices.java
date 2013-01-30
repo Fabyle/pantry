@@ -8,7 +8,7 @@ public interface NomenclatureServices {
 	public static final String NMA = "Nicolas";
 	public static final String NMA2 = "Nicolas-Montée en charge";
 	public static final String YBA = "Yohan";
-	public static final String JGR = "Jonathan";
+	public static final String OBO = "Olivier";
 	
 	// CLIENT
 	public static final String CLIENT_AG2R = "AG2R";

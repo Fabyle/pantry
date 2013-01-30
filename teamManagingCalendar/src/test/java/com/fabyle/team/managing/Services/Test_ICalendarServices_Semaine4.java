@@ -7,7 +7,7 @@ import static com.fabyle.team.managing.Services.NomenclatureServices.CLIENT_REUN
 import static com.fabyle.team.managing.Services.NomenclatureServices.DOC_CONCEPT;
 import static com.fabyle.team.managing.Services.NomenclatureServices.DOC_SPEC;
 import static com.fabyle.team.managing.Services.NomenclatureServices.DOC_VALID;
-import static com.fabyle.team.managing.Services.NomenclatureServices.JGR;
+import static com.fabyle.team.managing.Services.NomenclatureServices.OBO;
 import static com.fabyle.team.managing.Services.NomenclatureServices.LOG_DOC_INST;
 import static com.fabyle.team.managing.Services.NomenclatureServices.NMA;
 import static com.fabyle.team.managing.Services.NomenclatureServices.NMA2;
@@ -18,6 +18,7 @@ import static com.fabyle.team.managing.Services.NomenclatureServices.P_EXPORT_MV
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_EXPORT_PTF;
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_LINK_LANCEUR_GRAPHIQUE;
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_SMOG_MULTI;
+import static com.fabyle.team.managing.Services.NomenclatureServices.P_SYNCHRO_CTX;
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_VALID_BCN;
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_VALID_EXPLOIT_P2;
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_VALID_GEC;
@@ -29,6 +30,7 @@ import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_SPEC;
 import static com.fabyle.team.managing.Services.NomenclatureServices.TYPE_VALIDATION;
 import static com.fabyle.team.managing.Services.NomenclatureServices.XRO;
 import static com.fabyle.team.managing.Services.NomenclatureServices.YBA;
+import static com.fabyle.team.managing.Services.NomenclatureServices.OBO;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -114,7 +116,7 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 			service.deleteCalendar(XRO);
 			service.deleteCalendar(NMA);
 			service.deleteCalendar(YBA);
-			service.deleteCalendar("Jonathan");
+			service.deleteCalendar(OBO);
 			service.deleteCalendar(NMA2);
 		} catch (IOException | ServiceException e) {
 			// TODO Auto-generated catch block
@@ -122,13 +124,13 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 		}
 		
 		try {
-			service.createCalendar("Xavier", "Calendrier de Xavier",
+			service.createCalendar(XRO, "Calendrier de Xavier",
 					ICalendarServices.GREEN);
-			service.createCalendar("Nicolas", "Calendrier de Nicolas",
+			service.createCalendar(NMA, "Calendrier de Nicolas",
 					ICalendarServices.RED);
-			service.createCalendar("Yohan", "Calendrier de Yohan",
+			service.createCalendar(YBA, "Calendrier de Yohan",
 					ICalendarServices.BLUE);
-			service.createCalendar("Jonathan", "Calendrier de Jonathan",
+			service.createCalendar(OBO, "Calendrier d'olivier",
 					ICalendarServices.BLUE);
 			service.createCalendar(NMA2, "Calendrier de Nicolas pour la montée en charge",
 					ICalendarServices.RED);
@@ -144,14 +146,16 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 		
 		C_esicLanceurExcel_PLAN1();
 		D_batchMouvementPTF_PLAN1();
+		I_batchCRM_PLAN1();
 		E_batchMouvementORG_PLAN1();
 		F_smog_multi_BCB();
 				
 		G_ajouterTestMonteeEnCharge_Plan1();
 		H_validationBatchBCN_PLAN1();
-		I_batchCRM_PLAN1();
+		
 		J_FrameWork_webMethod();
 		//K_Provision_LINK();
+		L_synchroContexte2UR_PLAN1();
 		
 	}
 	
@@ -160,32 +164,32 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 	 */
 	public void I_batchCRM_PLAN1() {
 		
-		EntreeAgenda entree1 = new EntreeAgenda(JGR, CLIENT_REUNICA,
-				 TYPE_SPEC, P_EXPORT_CRM, PLAN_1,
-				DOC_SPEC);
-		
-		service.addEntreeAgendaTravail(entree1, "2013-02-18", 5, 100);
-		
-		EntreeAgenda entree2 = new EntreeAgenda(JGR, CLIENT_REUNICA,
+//		EntreeAgenda entree1 = new EntreeAgenda(OBO, CLIENT_REUNICA,
+//				 TYPE_SPEC, P_EXPORT_CRM, PLAN_1,
+//				DOC_SPEC);
+//		
+//		service.addEntreeAgendaTravail(entree1, "2013-02-18", 5, 100);
+//		
+		EntreeAgenda entree2 = new EntreeAgenda(OBO, CLIENT_REUNICA,
 				 TYPE_CONCEPT, P_EXPORT_CRM, PLAN_1,
 				DOC_CONCEPT);
-		entree2.addPrerequis(entree1);
+//		entree2.addPrerequis(entree1);
 		
-		service.addEntreeAgendaTravail(entree2, "2013-02-18", 4, 100);
+		service.addEntreeAgendaTravail(entree2, "2013-02-11", 5, 100);
 		
-		EntreeAgenda entree3 = new EntreeAgenda(JGR, CLIENT_REUNICA,
+		EntreeAgenda entree3 = new EntreeAgenda(OBO, CLIENT_REUNICA,
 				 TYPE_DEV, P_EXPORT_CRM, PLAN_1,
 				 LOG_DOC_INST);
 		entree3.addPrerequis(entree2);
 		
-		service.addEntreeAgendaTravail(entree3, "2013-02-18", 5, 100);
+		service.addEntreeAgendaTravail(entree3, "2013-02-11", 15, 100);
 		
-		EntreeAgenda entree4 = new EntreeAgenda(JGR, CLIENT_REUNICA,
+		EntreeAgenda entree4 = new EntreeAgenda(OBO, CLIENT_REUNICA,
 				 TYPE_VALIDATION, P_EXPORT_CRM, PLAN_1,
 				 DOC_VALID);
 		entree4.addPrerequis(entree3);		
 		
-		service.addEntreeAgendaTravail(entree4, "2013-02-18", 5, 100);
+		service.addEntreeAgendaTravail(entree4, "2013-03-11", 5, 100);
 		
 	}
 	
@@ -238,14 +242,14 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 		
 		service.addEntreeAgendaTravail(entree1, "2013-04-01", 5, 80);
 		
-		EntreeAgenda entree2 = new EntreeAgenda(JGR, CLIENT_REUNICA,
+		EntreeAgenda entree2 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_DEV, P_WM_FRAME, PLAN_1,
 				 LOG_DOC_INST);
 		entree2.addPrerequis(entree1);
 		
 		service.addEntreeAgendaTravail(entree2, "2013-04-01", 5, 80);
 		
-		EntreeAgenda entree3 = new EntreeAgenda(JGR, CLIENT_REUNICA,
+		EntreeAgenda entree3 = new EntreeAgenda(XRO, CLIENT_REUNICA,
 				 TYPE_VALIDATION, P_WM_FRAME, PLAN_1,
 				 DOC_VALID);
 		entree3.addPrerequis(entree2);
@@ -269,21 +273,21 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 		
 		service.addEntreeAgendaTravail(entree1, "2013-01-21", 3, 70);
 		
-		EntreeAgenda entree2 = new EntreeAgenda(JGR, CLIENT_REUNICA,
+		EntreeAgenda entree2 = new EntreeAgenda(OBO, CLIENT_REUNICA,
 				 TYPE_CONCEPT, P_EXPORT_MVO, PLAN_1,
 				DOC_CONCEPT);
 		entree2.addPrerequis(entree1);
 		
-		service.addEntreeAgendaTravail(entree2, "2013-03-04", 4, 100);
+		service.addEntreeAgendaTravail(entree2, "2013-03-11", 5, 100);
 		
-		EntreeAgenda entree3 = new EntreeAgenda(JGR, CLIENT_REUNICA,
+		EntreeAgenda entree3 = new EntreeAgenda(OBO, CLIENT_REUNICA,
 				 TYPE_DEV, P_EXPORT_MVO, PLAN_1,
 				 LOG_DOC_INST);
 		entree3.addPrerequis(entree2);
 		
-		service.addEntreeAgendaTravail(entree3, "2013-03-04", 5, 100);
+		service.addEntreeAgendaTravail(entree3, "2013-03-04", 10, 100);
 		
-		EntreeAgenda entree4 = new EntreeAgenda(JGR, CLIENT_REUNICA,
+		EntreeAgenda entree4 = new EntreeAgenda(OBO, CLIENT_REUNICA,
 				 TYPE_VALIDATION, P_EXPORT_MVO, PLAN_1,
 				 DOC_VALID);
 		entree4.addPrerequis(entree3);		
@@ -408,6 +412,18 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 		service.addEntreeAgendaConge(new EntreeAgendaCongee(XRO), "2013-02-08", "2013-02-12");
 
 	}
+	
+	/**
+	 * ----------
+	 */
+	public void L_synchroContexte2UR_PLAN1() {
+
+		service.addEntreeAgendaTravail(new EntreeAgenda(XRO, CLIENT_REUNICA,
+				TYPE_CONC_DEV, P_SYNCHRO_CTX, PLAN_1, LOG_DOC_INST),
+				"2013-02-10", 5, 70);
+
+	}
+	
 	
 	/**
 	 * ----------

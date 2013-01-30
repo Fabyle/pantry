@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Properties;
 
 import static com.fabyle.team.managing.Services.NomenclatureServices.NMA2;
+import static com.fabyle.team.managing.Services.NomenclatureServices.NMA;
+import static com.fabyle.team.managing.Services.NomenclatureServices.YBA;
+import static com.fabyle.team.managing.Services.NomenclatureServices.OBO;
+import static com.fabyle.team.managing.Services.NomenclatureServices.XRO;
 import org.apache.poi.util.ArrayUtil;
 
 import junit.framework.TestCase;
@@ -76,7 +80,7 @@ public class Test_IGantServices extends TestCase {
 	
 	 public void testGantt() {
 		 
-		 String[] liste = { "Xavier", "Yohan", "Nicolas" , NMA2};
+		 String[] liste = { XRO, YBA, NMA , NMA2, OBO};
 		
 		 serviceGantt.constructGantt(serviceCalendar, Arrays.asList(liste));
 		
