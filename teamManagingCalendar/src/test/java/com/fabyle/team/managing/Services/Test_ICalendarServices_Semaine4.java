@@ -32,6 +32,7 @@ import static com.fabyle.team.managing.Services.NomenclatureServices.XRO;
 import static com.fabyle.team.managing.Services.NomenclatureServices.YBA;
 import static com.fabyle.team.managing.Services.NomenclatureServices.PLAN_2;
 import static com.fabyle.team.managing.Services.NomenclatureServices.P_VALID_VGS_P2;
+import static com.fabyle.team.managing.Services.NomenclatureServices.P_WS_FIRME_PRIVILEGE;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -415,6 +416,19 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 
 	}
 	
+	/**
+	 * ----------
+	 */
+	public void N_IntegrationWSFirmePrivilegiee() {
+
+		service.addEntreeAgendaTravail(new EntreeAgenda(YBA, CLIENT_REUNICA,
+				TYPE_CONC_DEV, P_WS_FIRME_PRIVILEGE, PLAN_1, LOG_DOC_INST),
+				
+				"2013-03-01", 10, 60);
+
+	}
+	
+	
 	protected void setUp() throws Exception {
 		
 		super.setUp();
@@ -429,35 +443,35 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 		catch (IOException e) {
 		 // Handle exception here
 		}
-//		
-//		System.setProperty("http.proxyHost", props.getProperty("proxy.url"));
-//		System.setProperty("http.proxyPort", props.getProperty("proxy.port"));
-//		// Override system DNS setting with Google free DNS server
-//		System.setProperty("sun.net.spi.nameservice.nameservers", "8.8.8.8");
-//		System.setProperty("sun.net.spi.nameservice.provider.1", "dns,sun");
-//
-//		ProxySelector.setDefault(new ProxySelector() {
-//
-//			@Override
-//			public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
-//				throw new RuntimeException("Proxy connect failed", ioe);
-//			}
-//
-//			@Override
-//			public List select(URI uri) {
-//				List retour = new ArrayList();
-//				try {
-//					// ip de du proxy
-//					retour = Arrays.asList(new Proxy(Proxy.Type.HTTP,
-//							new InetSocketAddress(InetAddress
-//									.getByName(props.getProperty("proxy.ip")), 8080)));
-//				} catch (UnknownHostException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				return retour;
-//			}
-//		});
+		
+		System.setProperty("http.proxyHost", props.getProperty("proxy.url"));
+		System.setProperty("http.proxyPort", props.getProperty("proxy.port"));
+		// Override system DNS setting with Google free DNS server
+		System.setProperty("sun.net.spi.nameservice.nameservers", "8.8.8.8");
+		System.setProperty("sun.net.spi.nameservice.provider.1", "dns,sun");
+
+		ProxySelector.setDefault(new ProxySelector() {
+
+			@Override
+			public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
+				throw new RuntimeException("Proxy connect failed", ioe);
+			}
+
+			@Override
+			public List select(URI uri) {
+				List retour = new ArrayList();
+				try {
+					// ip de du proxy
+					retour = Arrays.asList(new Proxy(Proxy.Type.HTTP,
+							new InetSocketAddress(InetAddress
+									.getByName(props.getProperty("proxy.ip")), 8080)));
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return retour;
+			}
+		});
 
 		service.init(props.getProperty("google.login"), props.getProperty("google.password"), "testService");
 	}
@@ -487,6 +501,7 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 					ICalendarServices.BLUE);
 			service.createCalendar(NMA2, "Calendrier de Nicolas pour la montée en charge",
 					ICalendarServices.RED);
+			
 
 
 		} catch (IOException | ServiceException e) {
@@ -510,6 +525,7 @@ public class Test_ICalendarServices_Semaine4 extends TestCase {
 		//K_Provision_LINK();
 		L_synchroContexte2UR_PLAN1();
 		M_suiviPerformanceVGS();
+		N_IntegrationWSFirmePrivilegiee();
 		
 	}
 

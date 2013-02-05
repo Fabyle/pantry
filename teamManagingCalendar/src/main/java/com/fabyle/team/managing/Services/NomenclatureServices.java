@@ -58,6 +58,7 @@ public interface NomenclatureServices {
 	public static final String P_VALID_VGS_P2 = CONTRIBUTION_PALIER2+"Suivi exploitation VGS";
 	public static final String P_VALID_EXTRACT = CONTRIBUTION_INTERSIS+"Validation des extracteurs UR";
 	public static final String P_SYNCHRO_CTX = CONTRIBUTION_2UR+" Prise en compte impacts 2UR synchro. de contextes";
+	public static final String P_WS_FIRME_PRIVILEGE = CONTRIBUTION_2UR+" Intégration WS Firme privilégiée";
 
 
 	// PLANIFICATION
