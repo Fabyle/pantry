@@ -1,0 +1,3 @@
+REQUETE POUR APPELLER LA METHODE
+
+http://192.168.1.200:25535/RestServices/contactus/getAccess?login=toto&password=tutu
